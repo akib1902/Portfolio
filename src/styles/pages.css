@@ -48,7 +48,7 @@
   gap: 0.4rem;
   margin-bottom: 1rem;
   font-family: var(--font-mono);
-  font-size: 0.6rem;
+  font-size: 0.65rem;
   letter-spacing: 0.07em;
   text-transform: uppercase;
   color: var(--muted-strong);
@@ -120,7 +120,7 @@
 
 .side-card__title {
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.66rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--muted-strong);
@@ -135,7 +135,7 @@
 
 .side-card__note {
   margin-top: 0.3rem;
-  font-size: 0.78rem;
+  font-size: 0.8rem;
   line-height: 1.55;
   color: var(--muted-strong);
 }
@@ -183,7 +183,7 @@
 
 .principle__index {
   font-family: var(--font-mono);
-  font-size: 0.6rem;
+  font-size: 0.64rem;
   letter-spacing: 0.08em;
   color: var(--amber-strong);
 }
@@ -195,7 +195,7 @@
 }
 
 .principle__body {
-  font-size: 0.83rem;
+  font-size: 0.86rem;
   line-height: 1.65;
   color: var(--muted-strong);
 }
@@ -224,7 +224,7 @@
 
 .workflow__index {
   font-family: var(--font-mono);
-  font-size: 0.56rem;
+  font-size: 0.62rem;
   letter-spacing: 0.08em;
   color: var(--muted);
 }
@@ -237,7 +237,7 @@
 
 .workflow__body {
   margin-top: 0.25rem;
-  font-size: 0.78rem;
+  font-size: 0.81rem;
   line-height: 1.6;
   color: var(--muted-strong);
 }
@@ -257,7 +257,7 @@
 
 .education-card__kicker {
   font-family: var(--font-mono);
-  font-size: 0.6rem;
+  font-size: 0.64rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--muted);
@@ -280,7 +280,7 @@
   margin-top: 0.75rem;
   padding-top: 0.75rem;
   border-top: 1px solid var(--line);
-  font-size: 0.78rem;
+  font-size: 0.81rem;
   line-height: 1.55;
   color: var(--muted-strong);
 }
@@ -311,13 +311,13 @@
 }
 
 .filter-chip {
-  min-height: 38px;
-  padding: 0.42rem 0.72rem;
+  min-height: 40px;
+  padding: 0.45rem 0.75rem;
   border: 1px solid var(--line-strong);
   border-radius: var(--radius-sm);
   background: transparent;
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.68rem;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--muted-strong);
@@ -347,7 +347,7 @@
 
 .search-field__label {
   font-family: var(--font-mono);
-  font-size: 0.58rem;
+  font-size: 0.62rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--muted-strong);
@@ -377,7 +377,7 @@
   gap: 0.75rem;
   padding-block: 0.9rem;
   font-family: var(--font-mono);
-  font-size: 0.61rem;
+  font-size: 0.65rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--muted-strong);
@@ -470,7 +470,7 @@
   padding-bottom: 0.7rem;
   border-bottom: 1px solid var(--line);
   font-family: var(--font-mono);
-  font-size: 0.6rem;
+  font-size: 0.64rem;
   letter-spacing: 0.11em;
   text-transform: uppercase;
   color: var(--muted-strong);
@@ -484,7 +484,7 @@
 
 .meta-list dt {
   font-family: var(--font-mono);
-  font-size: 0.56rem;
+  font-size: 0.61rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--muted);
@@ -492,7 +492,7 @@
 
 .meta-list dd {
   margin: 0.15rem 0 0;
-  font-size: 0.83rem;
+  font-size: 0.85rem;
   font-weight: 500;
   line-height: 1.5;
   color: var(--ink-soft);
@@ -514,7 +514,7 @@
   padding: 0.75rem 1rem;
   border-bottom: 1px solid var(--line);
   font-family: var(--font-mono);
-  font-size: 0.6rem;
+  font-size: 0.65rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--muted-strong);
@@ -537,7 +537,7 @@
 .detail-diagram figcaption {
   padding: 0.7rem 1rem;
   border-top: 1px solid var(--line);
-  font-size: 0.76rem;
+  font-size: 0.8rem;
   line-height: 1.55;
   color: var(--muted-strong);
 }
@@ -557,7 +557,7 @@
 
 .case-toc__title {
   font-family: var(--font-mono);
-  font-size: 0.57rem;
+  font-size: 0.62rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--muted);
@@ -574,7 +574,7 @@
   display: grid;
   grid-template-columns: 1.5rem minmax(0, 1fr);
   gap: 0.3rem;
-  font-size: 0.74rem;
+  font-size: 0.78rem;
   line-height: 1.4;
   color: var(--muted-strong);
   transition: color 0.16s var(--ease);
@@ -586,7 +586,7 @@
 
 .case-toc__index {
   font-family: var(--font-mono);
-  font-size: 0.58rem;
+  font-size: 0.62rem;
   color: var(--amber-strong);
 }
 
@@ -629,7 +629,7 @@
 
 .case-section p {
   max-width: 72ch;
-  font-size: 0.94rem;
+  font-size: 0.96rem;
   line-height: 1.75;
   color: var(--ink-soft);
 }
@@ -649,7 +649,7 @@
 .case-section li {
   position: relative;
   padding-left: 1rem;
-  font-size: 0.88rem;
+  font-size: 0.9rem;
   line-height: 1.6;
   color: var(--muted-strong);
 }
@@ -675,7 +675,7 @@
 
 .evidence-card__title {
   font-family: var(--font-mono);
-  font-size: 0.6rem;
+  font-size: 0.65rem;
   letter-spacing: 0.11em;
   text-transform: uppercase;
   color: var(--muted-strong);
@@ -683,7 +683,7 @@
 
 .evidence-card__body {
   max-width: 70ch;
-  font-size: 0.86rem;
+  font-size: 0.88rem;
   line-height: 1.6;
   color: var(--muted-strong);
 }
@@ -719,7 +719,7 @@
 
 .project-nav__direction {
   font-family: var(--font-mono);
-  font-size: 0.57rem;
+  font-size: 0.62rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--muted);
@@ -756,6 +756,27 @@
   margin-top: 1.2rem;
 }
 
+.contact-form-title {
+  margin-top: 0.5rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 3.4vw, 2.6rem);
+  font-weight: 400;
+  line-height: 0.98;
+  text-transform: uppercase;
+}
+
+.side-card .status {
+  margin-top: 0.4rem;
+}
+
+.side-card .contact-links {
+  margin-top: 0.5rem;
+}
+
+.project-stack {
+  margin-top: 1rem;
+}
+
 .form-row {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -783,7 +804,7 @@
   padding-bottom: 0.65rem;
   border-bottom: 1px solid var(--line);
   font-family: var(--font-mono);
-  font-size: 0.6rem;
+  font-size: 0.65rem;
   letter-spacing: 0.11em;
   text-transform: uppercase;
   color: var(--muted-strong);
@@ -796,7 +817,7 @@
 }
 
 .info-card p {
-  font-size: 0.83rem;
+  font-size: 0.86rem;
   line-height: 1.6;
   color: var(--muted-strong);
 }
@@ -811,7 +832,7 @@
   display: grid;
   grid-template-columns: 0.9rem minmax(0, 1fr);
   gap: 0.35rem;
-  font-size: 0.82rem;
+  font-size: 0.85rem;
   line-height: 1.55;
   color: var(--muted-strong);
 }
@@ -859,6 +880,16 @@
   background: var(--success-wash);
 }
 
+.form-success__icon {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--success);
+  color: var(--surface);
+}
+
 .form-success__title {
   font-family: var(--font-display);
   font-size: 1.7rem;
@@ -877,14 +908,14 @@
 
 .form-success__reference {
   font-family: var(--font-mono);
-  font-size: 0.58rem;
+  font-size: 0.64rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: #456b51;
 }
 
 .form-legal {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   line-height: 1.6;
   color: var(--muted-strong);
 }
@@ -906,6 +937,10 @@
   font-size: 0.82rem;
   line-height: 1.55;
   color: var(--muted-strong);
+}
+
+.resume-toolbar__actions {
+  margin-top: 0;
 }
 
 .resume-wrap {
@@ -942,10 +977,20 @@
 .resume-head__role {
   margin-top: 0.4rem;
   font-family: var(--font-mono);
-  font-size: 0.65rem;
+  font-size: 0.68rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--muted-strong);
+}
+
+.resume-head__meta a {
+  text-decoration: underline;
+  text-decoration-color: var(--line-strong);
+  text-underline-offset: 0.2em;
+}
+
+.resume-head__meta a:hover {
+  color: var(--amber-strong);
 }
 
 .resume-head__meta {
@@ -953,7 +998,7 @@
   gap: 0.2rem;
   justify-items: end;
   font-family: var(--font-mono);
-  font-size: 0.6rem;
+  font-size: 0.65rem;
   line-height: 1.6;
   color: var(--muted-strong);
   text-align: right;
@@ -966,7 +1011,7 @@
 .resume-section__title {
   margin-bottom: 0.7rem;
   font-family: var(--font-mono);
-  font-size: 0.6rem;
+  font-size: 0.65rem;
   letter-spacing: 0.13em;
   text-transform: uppercase;
   color: var(--amber-strong);
@@ -995,7 +1040,7 @@
 
 .resume-skill-row dt {
   font-family: var(--font-mono);
-  font-size: 0.6rem;
+  font-size: 0.64rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--muted-strong);
@@ -1025,7 +1070,7 @@
 .resume-project__stack {
   margin-top: 0.15rem;
   font-family: var(--font-mono);
-  font-size: 0.58rem;
+  font-size: 0.64rem;
   letter-spacing: 0.02em;
   color: var(--muted-strong);
 }
@@ -1041,7 +1086,7 @@
   margin-top: 1.25rem;
   padding-top: 0.8rem;
   border-top: 1px solid var(--line);
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   line-height: 1.6;
   color: var(--muted-strong);
 }

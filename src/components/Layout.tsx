@@ -60,7 +60,7 @@ function Header() {
   return (
     <header className="site-header">
       <div className="container site-header__inner">
-        <Link to="/" className="brand" aria-label="Akib Ahmed — home">
+        <Link to="/" className="brand">
           <span>Akib</span>
           <span className="brand__last">Ahmed</span>
         </Link>

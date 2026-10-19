@@ -1,0 +1,483 @@
+{
+  "generatedAt": "2026-10-19T14:23:47.462Z",
+  "pages": {
+    "home-desktop": {
+      "route": "/",
+      "title": "Akib Ahmed — Software Engineer | Full-Stack, DevOps & QA",
+      "h1": "Build.Test.Deploy.",
+      "scrollWidth": 1440,
+      "clientWidth": 1440,
+      "mainWidth": 1440,
+      "brokenImages": [],
+      "overflowing": [],
+      "consoleErrors": [],
+      "axe": [
+        {
+          "id": "label-content-name-mismatch",
+          "impact": "serious",
+          "help": "Elements must have their visible text as part of their accessible name",
+          "nodes": [
+            ".brand"
+          ],
+          "count": 1
+        }
+      ]
+    },
+    "about-desktop": {
+      "route": "/about",
+      "title": "About — Akib Ahmed | Full-Stack, DevOps & QA Engineer",
+      "h1": "Software that earns its keep.",
+      "scrollWidth": 1440,
+      "clientWidth": 1440,
+      "mainWidth": 1440,
+      "brokenImages": [],
+      "overflowing": [],
+      "consoleErrors": [],
+      "axe": [
+        {
+          "id": "label-content-name-mismatch",
+          "impact": "serious",
+          "help": "Elements must have their visible text as part of their accessible name",
+          "nodes": [
+            ".brand"
+          ],
+          "count": 1
+        }
+      ]
+    },
+    "projects-desktop": {
+      "route": "/projects",
+      "title": "Projects — Akib Ahmed | Backend, Full-Stack, DevOps & QA",
+      "h1": "Selected work, examined.",
+      "scrollWidth": 1440,
+      "clientWidth": 1440,
+      "mainWidth": 1440,
+      "brokenImages": [],
+      "overflowing": [],
+      "consoleErrors": [],
+      "axe": [
+        {
+          "id": "label-content-name-mismatch",
+          "impact": "serious",
+          "help": "Elements must have their visible text as part of their accessible name",
+          "nodes": [
+            ".brand"
+          ],
+          "count": 1
+        }
+      ]
+    },
+    "project-agent-desktop": {
+      "route": "/projects/financial-research-settlement-agent",
+      "title": "Resilient Multi-Step Financial Research & Settlement Agent — Case study | Akib Ahmed",
+      "h1": "Resilient Multi-Step Financial Research & Settlement Agent",
+      "scrollWidth": 1440,
+      "clientWidth": 1440,
+      "mainWidth": 1440,
+      "brokenImages": [],
+      "overflowing": [],
+      "consoleErrors": [],
+      "axe": [
+        {
+          "id": "label-content-name-mismatch",
+          "impact": "serious",
+          "help": "Elements must have their visible text as part of their accessible name",
+          "nodes": [
+            ".brand"
+          ],
+          "count": 1
+        }
+      ]
+    },
+    "project-platform-desktop": {
+      "route": "/projects/full-stack-learning-platform",
+      "title": "Full-Stack Learning Platform — Case study | Akib Ahmed",
+      "h1": "Full-Stack Learning Platform",
+      "scrollWidth": 1440,
+      "clientWidth": 1440,
+      "mainWidth": 1440,
+      "brokenImages": [],
+      "overflowing": [],
+      "consoleErrors": [],
+      "axe": [
+        {
+          "id": "label-content-name-mismatch",
+          "impact": "serious",
+          "help": "Elements must have their visible text as part of their accessible name",
+          "nodes": [
+            ".brand"
+          ],
+          "count": 1
+        }
+      ]
+    },
+    "project-pipeline-desktop": {
+      "route": "/projects/cicd-test-automation-lab",
+      "title": "CI/CD & Test Automation Lab — Case study | Akib Ahmed",
+      "h1": "CI/CD & Test Automation Lab",
+      "scrollWidth": 1440,
+      "clientWidth": 1440,
+      "mainWidth": 1440,
+      "brokenImages": [],
+      "overflowing": [],
+      "consoleErrors": [],
+      "axe": [
+        {
+          "id": "label-content-name-mismatch",
+          "impact": "serious",
+          "help": "Elements must have their visible text as part of their accessible name",
+          "nodes": [
+            ".brand"
+          ],
+          "count": 1
+        }
+      ]
+    },
+    "contact-desktop": {
+      "route": "/contact",
+      "title": "Contact — Akib Ahmed | Full-Stack, DevOps & QA Engineer",
+      "h1": "Let's talk about what you're building.",
+      "scrollWidth": 1440,
+      "clientWidth": 1440,
+      "mainWidth": 1440,
+      "brokenImages": [],
+      "overflowing": [
+        {
+          "tag": "DIV",
+          "class": "honeypot",
+          "left": -9999,
+          "right": -9998
+        },
+        {
+          "tag": "LABEL",
+          "class": "",
+          "left": -9999,
+          "right": -9938
+        },
+        {
+          "tag": "INPUT",
+          "class": "",
+          "left": -9999,
+          "right": -9776
+        }
+      ],
+      "consoleErrors": [],
+      "axe": [
+        {
+          "id": "label-content-name-mismatch",
+          "impact": "serious",
+          "help": "Elements must have their visible text as part of their accessible name",
+          "nodes": [
+            ".brand"
+          ],
+          "count": 1
+        }
+      ]
+    },
+    "resume-desktop": {
+      "route": "/resume",
+      "title": "Resume — Akib Ahmed | Software Engineer",
+      "h1": "Akib Ahmed",
+      "scrollWidth": 1440,
+      "clientWidth": 1440,
+      "mainWidth": 1440,
+      "brokenImages": [],
+      "overflowing": [],
+      "consoleErrors": [],
+      "axe": [
+        {
+          "id": "label-content-name-mismatch",
+          "impact": "serious",
+          "help": "Elements must have their visible text as part of their accessible name",
+          "nodes": [
+            ".brand"
+          ],
+          "count": 1
+        }
+      ]
+    },
+    "not-found-desktop": {
+      "route": "/nope",
+      "title": "Page not found — Akib Ahmed",
+      "h1": "This page did not pass validation.",
+      "scrollWidth": 1440,
+      "clientWidth": 1440,
+      "mainWidth": 1440,
+      "brokenImages": [],
+      "overflowing": [],
+      "consoleErrors": [],
+      "axe": [
+        {
+          "id": "label-content-name-mismatch",
+          "impact": "serious",
+          "help": "Elements must have their visible text as part of their accessible name",
+          "nodes": [
+            ".brand"
+          ],
+          "count": 1
+        }
+      ]
+    },
+    "home-tablet": {
+      "route": "/",
+      "title": "Akib Ahmed — Software Engineer | Full-Stack, DevOps & QA",
+      "h1": "Build.Test.Deploy.",
+      "scrollWidth": 834,
+      "clientWidth": 834,
+      "mainWidth": 834,
+      "brokenImages": [],
+      "overflowing": [],
+      "consoleErrors": [],
+      "axe": null
+    },
+    "about-tablet": {
+      "route": "/about",
+      "title": "About — Akib Ahmed | Full-Stack, DevOps & QA Engineer",
+      "h1": "Software that earns its keep.",
+      "scrollWidth": 834,
+      "clientWidth": 834,
+      "mainWidth": 834,
+      "brokenImages": [],
+      "overflowing": [],
+      "consoleErrors": [],
+      "axe": null
+    },
+    "projects-tablet": {
+      "route": "/projects",
+      "title": "Projects — Akib Ahmed | Backend, Full-Stack, DevOps & QA",
+      "h1": "Selected work, examined.",
+      "scrollWidth": 834,
+      "clientWidth": 834,
+      "mainWidth": 834,
+      "brokenImages": [],
+      "overflowing": [],
+      "consoleErrors": [],
+      "axe": null
+    },
+    "project-agent-tablet": {
+      "route": "/projects/financial-research-settlement-agent",
+      "title": "Resilient Multi-Step Financial Research & Settlement Agent — Case study | Akib Ahmed",
+      "h1": "Resilient Multi-Step Financial Research & Settlement Agent",
+      "scrollWidth": 834,
+      "clientWidth": 834,
+      "mainWidth": 834,
+      "brokenImages": [],
+      "overflowing": [],
+      "consoleErrors": [],
+      "axe": null
+    },
+    "project-platform-tablet": {
+      "route": "/projects/full-stack-learning-platform",
+      "title": "Full-Stack Learning Platform — Case study | Akib Ahmed",
+      "h1": "Full-Stack Learning Platform",
+      "scrollWidth": 834,
+      "clientWidth": 834,
+      "mainWidth": 834,
+      "brokenImages": [],
+      "overflowing": [],
+      "consoleErrors": [],
+      "axe": null
+    },
+    "project-pipeline-tablet": {
+      "route": "/projects/cicd-test-automation-lab",
+      "title": "CI/CD & Test Automation Lab — Case study | Akib Ahmed",
+      "h1": "CI/CD & Test Automation Lab",
+      "scrollWidth": 834,
+      "clientWidth": 834,
+      "mainWidth": 834,
+      "brokenImages": [],
+      "overflowing": [],
+      "consoleErrors": [],
+      "axe": null
+    },
+    "contact-tablet": {
+      "route": "/contact",
+      "title": "Contact — Akib Ahmed | Full-Stack, DevOps & QA Engineer",
+      "h1": "Let's talk about what you're building.",
+      "scrollWidth": 834,
+      "clientWidth": 834,
+      "mainWidth": 834,
+      "brokenImages": [],
+      "overflowing": [
+        {
+          "tag": "DIV",
+          "class": "honeypot",
+          "left": -9999,
+          "right": -9998
+        },
+        {
+          "tag": "LABEL",
+          "class": "",
+          "left": -9999,
+          "right": -9938
+        },
+        {
+          "tag": "INPUT",
+          "class": "",
+          "left": -9999,
+          "right": -9776
+        }
+      ],
+      "consoleErrors": [],
+      "axe": null
+    },
+    "resume-tablet": {
+      "route": "/resume",
+      "title": "Resume — Akib Ahmed | Software Engineer",
+      "h1": "Akib Ahmed",
+      "scrollWidth": 834,
+      "clientWidth": 834,
+      "mainWidth": 834,
+      "brokenImages": [],
+      "overflowing": [],
+      "consoleErrors": [],
+      "axe": null
+    },
+    "not-found-tablet": {
+      "route": "/nope",
+      "title": "Page not found — Akib Ahmed",
+      "h1": "This page did not pass validation.",
+      "scrollWidth": 834,
+      "clientWidth": 834,
+      "mainWidth": 834,
+      "brokenImages": [],
+      "overflowing": [],
+      "consoleErrors": [],
+      "axe": null
+    },
+    "home-mobile": {
+      "route": "/",
+      "title": "Akib Ahmed — Software Engineer | Full-Stack, DevOps & QA",
+      "h1": "Build.Test.Deploy.",
+      "scrollWidth": 390,
+      "clientWidth": 390,
+      "mainWidth": 390,
+      "brokenImages": [],
+      "overflowing": [
+        {
+          "tag": "SPAN",
+          "class": "portrait-plate__band",
+          "left": -32,
+          "right": 422
+        }
+      ],
+      "consoleErrors": [],
+      "axe": null
+    },
+    "about-mobile": {
+      "route": "/about",
+      "title": "About — Akib Ahmed | Full-Stack, DevOps & QA Engineer",
+      "h1": "Software that earns its keep.",
+      "scrollWidth": 390,
+      "clientWidth": 390,
+      "mainWidth": 390,
+      "brokenImages": [],
+      "overflowing": [],
+      "consoleErrors": [],
+      "axe": null
+    },
+    "projects-mobile": {
+      "route": "/projects",
+      "title": "Projects — Akib Ahmed | Backend, Full-Stack, DevOps & QA",
+      "h1": "Selected work, examined.",
+      "scrollWidth": 390,
+      "clientWidth": 390,
+      "mainWidth": 390,
+      "brokenImages": [],
+      "overflowing": [],
+      "consoleErrors": [],
+      "axe": null
+    },
+    "project-agent-mobile": {
+      "route": "/projects/financial-research-settlement-agent",
+      "title": "Resilient Multi-Step Financial Research & Settlement Agent — Case study | Akib Ahmed",
+      "h1": "Resilient Multi-Step Financial Research & Settlement Agent",
+      "scrollWidth": 390,
+      "clientWidth": 390,
+      "mainWidth": 390,
+      "brokenImages": [],
+      "overflowing": [],
+      "consoleErrors": [],
+      "axe": null
+    },
+    "project-platform-mobile": {
+      "route": "/projects/full-stack-learning-platform",
+      "title": "Full-Stack Learning Platform — Case study | Akib Ahmed",
+      "h1": "Full-Stack Learning Platform",
+      "scrollWidth": 390,
+      "clientWidth": 390,
+      "mainWidth": 390,
+      "brokenImages": [],
+      "overflowing": [],
+      "consoleErrors": [],
+      "axe": null
+    },
+    "project-pipeline-mobile": {
+      "route": "/projects/cicd-test-automation-lab",
+      "title": "CI/CD & Test Automation Lab — Case study | Akib Ahmed",
+      "h1": "CI/CD & Test Automation Lab",
+      "scrollWidth": 390,
+      "clientWidth": 390,
+      "mainWidth": 390,
+      "brokenImages": [],
+      "overflowing": [],
+      "consoleErrors": [],
+      "axe": null
+    },
+    "contact-mobile": {
+      "route": "/contact",
+      "title": "Contact — Akib Ahmed | Full-Stack, DevOps & QA Engineer",
+      "h1": "Let's talk about what you're building.",
+      "scrollWidth": 390,
+      "clientWidth": 390,
+      "mainWidth": 390,
+      "brokenImages": [],
+      "overflowing": [
+        {
+          "tag": "DIV",
+          "class": "honeypot",
+          "left": -9999,
+          "right": -9998
+        },
+        {
+          "tag": "LABEL",
+          "class": "",
+          "left": -9999,
+          "right": -9938
+        },
+        {
+          "tag": "INPUT",
+          "class": "",
+          "left": -9999,
+          "right": -9776
+        }
+      ],
+      "consoleErrors": [],
+      "axe": null
+    },
+    "resume-mobile": {
+      "route": "/resume",
+      "title": "Resume — Akib Ahmed | Software Engineer",
+      "h1": "Akib Ahmed",
+      "scrollWidth": 390,
+      "clientWidth": 390,
+      "mainWidth": 390,
+      "brokenImages": [],
+      "overflowing": [],
+      "consoleErrors": [],
+      "axe": null
+    },
+    "not-found-mobile": {
+      "route": "/nope",
+      "title": "Page not found — Akib Ahmed",
+      "h1": "This page did not pass validation.",
+      "scrollWidth": 390,
+      "clientWidth": 390,
+      "mainWidth": 390,
+      "brokenImages": [],
+      "overflowing": [],
+      "consoleErrors": [],
+      "axe": null
+    }
+  }
+}

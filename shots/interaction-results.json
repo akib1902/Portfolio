@@ -1,0 +1,112 @@
+[
+  {
+    "name": "mobile menu starts closed",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "menu toggle reports expanded",
+    "pass": true,
+    "detail": "true"
+  },
+  {
+    "name": "mobile menu exposes navigation links",
+    "pass": true,
+    "detail": "5"
+  },
+  {
+    "name": "Escape closes the mobile menu",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "focus returns to the menu button",
+    "pass": true,
+    "detail": "menu-toggle"
+  },
+  {
+    "name": "mobile navigation changes route",
+    "pass": true,
+    "detail": "http://127.0.0.1:3000/about"
+  },
+  {
+    "name": "mobile menu closes after navigation",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "projects page shows all case studies",
+    "pass": true,
+    "detail": "3"
+  },
+  {
+    "name": "DevOps filter narrows to one project",
+    "pass": true,
+    "detail": "1"
+  },
+  {
+    "name": "active filter is exposed with aria-pressed",
+    "pass": true,
+    "detail": "DevOps"
+  },
+  {
+    "name": "search shows an empty state",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "clear filters restores all projects",
+    "pass": true,
+    "detail": "3"
+  },
+  {
+    "name": "filter is removed from the URL",
+    "pass": true,
+    "detail": "http://127.0.0.1:3000/projects"
+  },
+  {
+    "name": "deep-linked category filter is applied",
+    "pass": false,
+    "detail": "3"
+  },
+  {
+    "name": "invalid submission shows field errors",
+    "pass": true,
+    "detail": "3"
+  },
+  {
+    "name": "first invalid field receives focus",
+    "pass": true,
+    "detail": "name"
+  },
+  {
+    "name": "valid submission shows success state",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "success state includes a reference",
+    "pass": true,
+    "detail": "Reference · b2d2518b"
+  },
+  {
+    "name": "submission is persisted server-side",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "submission is not exposed in the DOM",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "server failure is surfaced honestly",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "success state is not shown on failure",
+    "pass": true,
+    "detail": ""
+  }
+]

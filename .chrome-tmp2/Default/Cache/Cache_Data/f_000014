@@ -1,0 +1,505 @@
+import { createHotContext as __vite__createHotContext } from "/@vite/client";import.meta.hot = __vite__createHotContext("/src/components/ContactForm.tsx");import __vite__cjsImport0_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=5c7f67b9"; const Fragment = __vite__cjsImport0_react_jsxDevRuntime["Fragment"]; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime["jsxDEV"];
+var _s = $RefreshSig$();
+import __vite__cjsImport1_react from "/node_modules/.vite/deps/react.js?v=5c7f67b9"; const useId = __vite__cjsImport1_react["useId"]; const useRef = __vite__cjsImport1_react["useRef"]; const useState = __vite__cjsImport1_react["useState"];
+import {
+  INQUIRY_OPTIONS,
+  MESSAGE_MAX,
+  MESSAGE_MIN,
+  contactSchema,
+  fieldErrorsFromIssues
+} from "/src/lib/contact-schema.ts";
+import { AlertIcon, ArrowRight, CheckIcon } from "/src/components/icons.tsx";
+const initialValues = {
+  name: "",
+  email: "",
+  inquiry: "project",
+  message: "",
+  website: ""
+};
+const fieldOrder = ["name", "email", "inquiry", "message"];
+export function ContactForm() {
+  _s();
+  const uid = useId();
+  const [values, setValues] = useState(initialValues);
+  const [errors, setErrors] = useState({});
+  const [status, setStatus] = useState("idle");
+  const [formError, setFormError] = useState("");
+  const [reference, setReference] = useState("");
+  const successRef = useRef(null);
+  const ids = {
+    name: `${uid}-name`,
+    email: `${uid}-email`,
+    inquiry: `${uid}-inquiry`,
+    message: `${uid}-message`
+  };
+  function update(key, value) {
+    setValues((current) => ({ ...current, [key]: value }));
+    if (key !== "website" && errors[key]) {
+      setErrors((current) => ({ ...current, [key]: void 0 }));
+    }
+    if (status === "error") {
+      setStatus("idle");
+      setFormError("");
+    }
+  }
+  function validateField(field) {
+    const result = contactSchema.safeParse(values);
+    const next = result.success ? {} : fieldErrorsFromIssues(result.error.issues);
+    setErrors((current) => ({ ...current, [field]: next[field] }));
+  }
+  function handleBlur(field) {
+    validateField(field);
+  }
+  async function handleSubmit(event) {
+    event.preventDefault();
+    setFormError("");
+    setReference("");
+    const parsed = contactSchema.safeParse(values);
+    if (!parsed.success) {
+      const nextErrors = fieldErrorsFromIssues(parsed.error.issues);
+      setErrors(nextErrors);
+      setStatus("error");
+      setFormError("Please check the highlighted fields and try again.");
+      const firstInvalid = fieldOrder.find((field) => nextErrors[field]);
+      if (firstInvalid) document.getElementById(ids[firstInvalid])?.focus();
+      return;
+    }
+    setErrors({});
+    setStatus("submitting");
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), 2e4);
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: parsed.data.name,
+          email: parsed.data.email,
+          inquiry: parsed.data.inquiry,
+          message: parsed.data.message,
+          website: values.website
+        }),
+        signal: controller.signal
+      });
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        if (payload.fieldErrors) setErrors(payload.fieldErrors);
+        setFormError(
+          payload.error ?? "The message could not be sent right now. Please try again in a moment."
+        );
+        setStatus("error");
+        return;
+      }
+      setReference(payload.id ?? "");
+      setStatus("success");
+      setValues(initialValues);
+      window.setTimeout(() => successRef.current?.focus(), 60);
+    } catch (error) {
+      setStatus("error");
+      setFormError(
+        error instanceof DOMException && error.name === "AbortError" ? "The request took too long. Check your connection and try again." : "The message could not be sent. Check your connection and try again."
+      );
+    } finally {
+      window.clearTimeout(timeout);
+    }
+  }
+  if (status === "success") {
+    return /* @__PURE__ */ jsxDEV("div", { className: "form-success", role: "status", "aria-live": "polite", children: [
+      /* @__PURE__ */ jsxDEV("span", { className: "form-success__icon", "aria-hidden": "true", children: /* @__PURE__ */ jsxDEV(CheckIcon, { size: 18 }, void 0, false, {
+        fileName: "E:/Portfolio/src/components/ContactForm.tsx",
+        lineNumber: 142,
+        columnNumber: 11
+      }, this) }, void 0, false, {
+        fileName: "E:/Portfolio/src/components/ContactForm.tsx",
+        lineNumber: 141,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV("h3", { className: "form-success__title", ref: successRef, tabIndex: -1, children: "Message received" }, void 0, false, {
+        fileName: "E:/Portfolio/src/components/ContactForm.tsx",
+        lineNumber: 144,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV("p", { className: "form-success__body", children: "Thanks for reaching out. Your message is safely stored, and I will reply to the email address you provided. If it is urgent, you can send a follow-up through the same form." }, void 0, false, {
+        fileName: "E:/Portfolio/src/components/ContactForm.tsx",
+        lineNumber: 147,
+        columnNumber: 9
+      }, this),
+      reference ? /* @__PURE__ */ jsxDEV("p", { className: "form-success__reference", children: [
+        "Reference · ",
+        reference.slice(0, 8)
+      ] }, void 0, true, {
+        fileName: "E:/Portfolio/src/components/ContactForm.tsx",
+        lineNumber: 152,
+        columnNumber: 9
+      }, this) : null,
+      /* @__PURE__ */ jsxDEV(
+        "button",
+        {
+          type: "button",
+          className: "btn btn--secondary btn--small",
+          onClick: () => {
+            setStatus("idle");
+            setErrors({});
+            setFormError("");
+          },
+          children: "Send another message"
+        },
+        void 0,
+        false,
+        {
+          fileName: "E:/Portfolio/src/components/ContactForm.tsx",
+          lineNumber: 154,
+          columnNumber: 9
+        },
+        this
+      )
+    ] }, void 0, true, {
+      fileName: "E:/Portfolio/src/components/ContactForm.tsx",
+      lineNumber: 140,
+      columnNumber: 7
+    }, this);
+  }
+  const submitting = status === "submitting";
+  const messageCount = values.message.length;
+  return /* @__PURE__ */ jsxDEV("form", { className: "contact-form", onSubmit: handleSubmit, noValidate: true, children: [
+    status === "error" && formError ? /* @__PURE__ */ jsxDEV("div", { className: "form-status form-status--error", role: "alert", children: [
+      /* @__PURE__ */ jsxDEV(AlertIcon, { size: 17 }, void 0, false, {
+        fileName: "E:/Portfolio/src/components/ContactForm.tsx",
+        lineNumber: 176,
+        columnNumber: 11
+      }, this),
+      /* @__PURE__ */ jsxDEV("span", { children: formError }, void 0, false, {
+        fileName: "E:/Portfolio/src/components/ContactForm.tsx",
+        lineNumber: 177,
+        columnNumber: 11
+      }, this)
+    ] }, void 0, true, {
+      fileName: "E:/Portfolio/src/components/ContactForm.tsx",
+      lineNumber: 175,
+      columnNumber: 7
+    }, this) : null,
+    /* @__PURE__ */ jsxDEV("div", { className: "form-row", children: [
+      /* @__PURE__ */ jsxDEV("div", { className: `field${errors.name ? " field--invalid" : ""}`, children: [
+        /* @__PURE__ */ jsxDEV("label", { className: "field__label", htmlFor: ids.name, children: "Name" }, void 0, false, {
+          fileName: "E:/Portfolio/src/components/ContactForm.tsx",
+          lineNumber: 183,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV(
+          "input",
+          {
+            id: ids.name,
+            name: "name",
+            className: "field__control",
+            type: "text",
+            autoComplete: "name",
+            value: values.name,
+            onChange: (event) => update("name", event.target.value),
+            onBlur: () => handleBlur("name"),
+            "aria-invalid": Boolean(errors.name),
+            "aria-describedby": errors.name ? `${ids.name}-error` : void 0,
+            placeholder: "Your name",
+            maxLength: 80,
+            required: true
+          },
+          void 0,
+          false,
+          {
+            fileName: "E:/Portfolio/src/components/ContactForm.tsx",
+            lineNumber: 186,
+            columnNumber: 11
+          },
+          this
+        ),
+        errors.name ? /* @__PURE__ */ jsxDEV("p", { className: "field__error", id: `${ids.name}-error`, children: [
+          /* @__PURE__ */ jsxDEV(AlertIcon, { size: 13 }, void 0, false, {
+            fileName: "E:/Portfolio/src/components/ContactForm.tsx",
+            lineNumber: 203,
+            columnNumber: 15
+          }, this),
+          errors.name
+        ] }, void 0, true, {
+          fileName: "E:/Portfolio/src/components/ContactForm.tsx",
+          lineNumber: 202,
+          columnNumber: 11
+        }, this) : null
+      ] }, void 0, true, {
+        fileName: "E:/Portfolio/src/components/ContactForm.tsx",
+        lineNumber: 182,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV("div", { className: `field${errors.email ? " field--invalid" : ""}`, children: [
+        /* @__PURE__ */ jsxDEV("label", { className: "field__label", htmlFor: ids.email, children: "Email" }, void 0, false, {
+          fileName: "E:/Portfolio/src/components/ContactForm.tsx",
+          lineNumber: 210,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV(
+          "input",
+          {
+            id: ids.email,
+            name: "email",
+            className: "field__control",
+            type: "email",
+            inputMode: "email",
+            autoComplete: "email",
+            value: values.email,
+            onChange: (event) => update("email", event.target.value),
+            onBlur: () => handleBlur("email"),
+            "aria-invalid": Boolean(errors.email),
+            "aria-describedby": errors.email ? `${ids.email}-error` : void 0,
+            placeholder: "you@company.com",
+            maxLength: 254,
+            required: true
+          },
+          void 0,
+          false,
+          {
+            fileName: "E:/Portfolio/src/components/ContactForm.tsx",
+            lineNumber: 213,
+            columnNumber: 11
+          },
+          this
+        ),
+        errors.email ? /* @__PURE__ */ jsxDEV("p", { className: "field__error", id: `${ids.email}-error`, children: [
+          /* @__PURE__ */ jsxDEV(AlertIcon, { size: 13 }, void 0, false, {
+            fileName: "E:/Portfolio/src/components/ContactForm.tsx",
+            lineNumber: 231,
+            columnNumber: 15
+          }, this),
+          errors.email
+        ] }, void 0, true, {
+          fileName: "E:/Portfolio/src/components/ContactForm.tsx",
+          lineNumber: 230,
+          columnNumber: 11
+        }, this) : null
+      ] }, void 0, true, {
+        fileName: "E:/Portfolio/src/components/ContactForm.tsx",
+        lineNumber: 209,
+        columnNumber: 9
+      }, this)
+    ] }, void 0, true, {
+      fileName: "E:/Portfolio/src/components/ContactForm.tsx",
+      lineNumber: 181,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV("div", { className: `field${errors.inquiry ? " field--invalid" : ""}`, children: [
+      /* @__PURE__ */ jsxDEV("label", { className: "field__label", htmlFor: ids.inquiry, children: "What is this about?" }, void 0, false, {
+        fileName: "E:/Portfolio/src/components/ContactForm.tsx",
+        lineNumber: 239,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(
+        "select",
+        {
+          id: ids.inquiry,
+          name: "inquiry",
+          className: "field__control",
+          value: values.inquiry,
+          onChange: (event) => update("inquiry", event.target.value),
+          onBlur: () => handleBlur("inquiry"),
+          "aria-invalid": Boolean(errors.inquiry),
+          "aria-describedby": errors.inquiry ? `${ids.inquiry}-error` : void 0,
+          children: INQUIRY_OPTIONS.map(
+            (option) => /* @__PURE__ */ jsxDEV("option", { value: option.value, children: option.label }, option.value, false, {
+              fileName: "E:/Portfolio/src/components/ContactForm.tsx",
+              lineNumber: 253,
+              columnNumber: 11
+            }, this)
+          )
+        },
+        void 0,
+        false,
+        {
+          fileName: "E:/Portfolio/src/components/ContactForm.tsx",
+          lineNumber: 242,
+          columnNumber: 9
+        },
+        this
+      ),
+      errors.inquiry ? /* @__PURE__ */ jsxDEV("p", { className: "field__error", id: `${ids.inquiry}-error`, children: [
+        /* @__PURE__ */ jsxDEV(AlertIcon, { size: 13 }, void 0, false, {
+          fileName: "E:/Portfolio/src/components/ContactForm.tsx",
+          lineNumber: 260,
+          columnNumber: 13
+        }, this),
+        errors.inquiry
+      ] }, void 0, true, {
+        fileName: "E:/Portfolio/src/components/ContactForm.tsx",
+        lineNumber: 259,
+        columnNumber: 9
+      }, this) : null
+    ] }, void 0, true, {
+      fileName: "E:/Portfolio/src/components/ContactForm.tsx",
+      lineNumber: 238,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV("div", { className: `field${errors.message ? " field--invalid" : ""}`, children: [
+      /* @__PURE__ */ jsxDEV("label", { className: "field__label", htmlFor: ids.message, children: [
+        /* @__PURE__ */ jsxDEV("span", { children: "Message" }, void 0, false, {
+          fileName: "E:/Portfolio/src/components/ContactForm.tsx",
+          lineNumber: 268,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV("span", { className: "field__optional", children: [
+          messageCount,
+          " / ",
+          MESSAGE_MAX
+        ] }, void 0, true, {
+          fileName: "E:/Portfolio/src/components/ContactForm.tsx",
+          lineNumber: 269,
+          columnNumber: 11
+        }, this)
+      ] }, void 0, true, {
+        fileName: "E:/Portfolio/src/components/ContactForm.tsx",
+        lineNumber: 267,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(
+        "textarea",
+        {
+          id: ids.message,
+          name: "message",
+          className: "field__control",
+          value: values.message,
+          onChange: (event) => update("message", event.target.value),
+          onBlur: () => handleBlur("message"),
+          "aria-invalid": Boolean(errors.message),
+          "aria-describedby": errors.message ? `${ids.message}-error` : `${ids.message}-hint`,
+          placeholder: "What are you building, what stage is it at, and what kind of help do you need?",
+          maxLength: MESSAGE_MAX,
+          minLength: MESSAGE_MIN,
+          required: true
+        },
+        void 0,
+        false,
+        {
+          fileName: "E:/Portfolio/src/components/ContactForm.tsx",
+          lineNumber: 273,
+          columnNumber: 9
+        },
+        this
+      ),
+      errors.message ? /* @__PURE__ */ jsxDEV("p", { className: "field__error", id: `${ids.message}-error`, children: [
+        /* @__PURE__ */ jsxDEV(AlertIcon, { size: 13 }, void 0, false, {
+          fileName: "E:/Portfolio/src/components/ContactForm.tsx",
+          lineNumber: 289,
+          columnNumber: 13
+        }, this),
+        errors.message
+      ] }, void 0, true, {
+        fileName: "E:/Portfolio/src/components/ContactForm.tsx",
+        lineNumber: 288,
+        columnNumber: 9
+      }, this) : /* @__PURE__ */ jsxDEV("p", { className: "field__hint", id: `${ids.message}-hint`, children: "A few sentences of context is enough. Please do not include passwords or sensitive credentials." }, void 0, false, {
+        fileName: "E:/Portfolio/src/components/ContactForm.tsx",
+        lineNumber: 293,
+        columnNumber: 9
+      }, this)
+    ] }, void 0, true, {
+      fileName: "E:/Portfolio/src/components/ContactForm.tsx",
+      lineNumber: 266,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV("div", { className: "honeypot", "aria-hidden": "true", children: [
+      /* @__PURE__ */ jsxDEV("label", { htmlFor: `${uid}-website`, children: "Website" }, void 0, false, {
+        fileName: "E:/Portfolio/src/components/ContactForm.tsx",
+        lineNumber: 301,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(
+        "input",
+        {
+          id: `${uid}-website`,
+          name: "website",
+          type: "text",
+          tabIndex: -1,
+          autoComplete: "off",
+          value: values.website,
+          onChange: (event) => update("website", event.target.value)
+        },
+        void 0,
+        false,
+        {
+          fileName: "E:/Portfolio/src/components/ContactForm.tsx",
+          lineNumber: 302,
+          columnNumber: 9
+        },
+        this
+      )
+    ] }, void 0, true, {
+      fileName: "E:/Portfolio/src/components/ContactForm.tsx",
+      lineNumber: 300,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV("div", { children: /* @__PURE__ */ jsxDEV("button", { type: "submit", className: "btn btn--primary", disabled: submitting, children: submitting ? /* @__PURE__ */ jsxDEV(Fragment, { children: [
+      /* @__PURE__ */ jsxDEV("span", { className: "spinner", "aria-hidden": "true" }, void 0, false, {
+        fileName: "E:/Portfolio/src/components/ContactForm.tsx",
+        lineNumber: 317,
+        columnNumber: 15
+      }, this),
+      "Sending…"
+    ] }, void 0, true, {
+      fileName: "E:/Portfolio/src/components/ContactForm.tsx",
+      lineNumber: 316,
+      columnNumber: 11
+    }, this) : /* @__PURE__ */ jsxDEV(Fragment, { children: [
+      "Send message",
+      /* @__PURE__ */ jsxDEV(ArrowRight, { size: 15 }, void 0, false, {
+        fileName: "E:/Portfolio/src/components/ContactForm.tsx",
+        lineNumber: 323,
+        columnNumber: 15
+      }, this)
+    ] }, void 0, true, {
+      fileName: "E:/Portfolio/src/components/ContactForm.tsx",
+      lineNumber: 321,
+      columnNumber: 11
+    }, this) }, void 0, false, {
+      fileName: "E:/Portfolio/src/components/ContactForm.tsx",
+      lineNumber: 314,
+      columnNumber: 9
+    }, this) }, void 0, false, {
+      fileName: "E:/Portfolio/src/components/ContactForm.tsx",
+      lineNumber: 313,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV("p", { className: "form-legal", children: "Your details are used only to reply to this inquiry. Submissions are stored on the server and, if email notifications are configured, delivered to a private inbox." }, void 0, false, {
+      fileName: "E:/Portfolio/src/components/ContactForm.tsx",
+      lineNumber: 329,
+      columnNumber: 7
+    }, this)
+  ] }, void 0, true, {
+    fileName: "E:/Portfolio/src/components/ContactForm.tsx",
+    lineNumber: 173,
+    columnNumber: 5
+  }, this);
+}
+_s(ContactForm, "3z++Wvtx+lXc8GS9o/EVqhgnEn4=");
+_c = ContactForm;
+var _c;
+$RefreshReg$(_c, "ContactForm");
+import * as RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.$RefreshReg$) {
+    throw new Error(
+      "@vitejs/plugin-react can't detect preamble. Something is wrong."
+    );
+  }
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("E:/Portfolio/src/components/ContactForm.tsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("E:/Portfolio/src/components/ContactForm.tsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+function $RefreshReg$(type, id) {
+  return RefreshRuntime.register(type, "E:/Portfolio/src/components/ContactForm.tsx " + id);
+}
+function $RefreshSig$() {
+  return RefreshRuntime.createSignatureFunctionForTransform();
+}
+
+//# sourceMappingURL=data:application/json;base64,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LE9BL0pGO0FBQUE7QUFBQTtBQUFBO0FBQUEsU0FnS0E7QUFFSjtBQUFDOUQsR0E5U2VELGFBQVc7QUFBQSxLQUFYQTtBQUFXLElBQUF1RTtBQUFBLGFBQUFBLElBQUEiLCJuYW1lcyI6WyJ1c2VJZCIsInVzZVJlZiIsInVzZVN0YXRlIiwiSU5RVUlSWV9PUFRJT05TIiwiTUVTU0FHRV9NQVgiLCJNRVNTQUdFX01JTiIsImNvbnRhY3RTY2hlbWEiLCJmaWVsZEVycm9yc0Zyb21Jc3N1ZXMiLCJBbGVydEljb24iLCJBcnJvd1JpZ2h0IiwiQ2hlY2tJY29uIiwiaW5pdGlhbFZhbHVlcyIsIm5hbWUiLCJlbWFpbCIsImlucXVpcnkiLCJtZXNzYWdlIiwid2Vic2l0ZSIsImZpZWxkT3JkZXIiLCJDb250YWN0Rm9ybSIsIl9zIiwidWlkIiwidmFsdWVzIiwic2V0VmFsdWVzIiwiZXJyb3JzIiwic2V0RXJyb3JzIiwic3RhdHVzIiwic2V0U3RhdHVzIiwiZm9ybUVycm9yIiwic2V0Rm9ybUVycm9yIiwicmVmZXJlbmNlIiwic2V0UmVmZXJlbmNlIiwic3VjY2Vzc1JlZiIsImlkcyIsInVwZGF0ZSIsImtleSIsInZhbHVlIiwiY3VycmVudCIsInVuZGVmaW5lZCIsInZhbGlkYXRlRmllbGQiLCJmaWVsZCIsInJlc3VsdCIsInNhZmVQYXJzZSIsIm5leHQiLCJzdWNjZXNzIiwiZXJyb3IiLCJpc3N1ZXMiLCJoYW5kbGVCbHVyIiwiaGFuZGxlU3VibWl0IiwiZXZlbnQiLCJwcmV2ZW50RGVmYXVsdCIsInBhcnNlZCIsIm5leHRFcnJvcnMiLCJmaXJzdEludmFsaWQiLCJmaW5kIiwiZG9jdW1lbnQiLCJnZXRFbGVtZW50QnlJZCIsImZvY3VzIiwiY29udHJvbGxlciIsIkFib3J0Q29udHJvbGxlciIsInRpbWVvdXQiLCJ3aW5kb3ciLCJzZXRUaW1lb3V0IiwiYWJvcnQiLCJyZXNwb25zZSIsImZldGNoIiwibWV0aG9kIiwiaGVhZGVycyIsImJvZHkiLCJKU09OIiwic3RyaW5naWZ5IiwiZGF0YSIsInNpZ25hbCIsInBheWxvYWQiLCJqc29uIiwiY2F0Y2giLCJvayIsImZpZWxkRXJyb3JzIiwiaWQiLCJET01FeGNlcHRpb24iLCJjbGVhclRpbWVvdXQiLCJzbGljZSIsInN1Ym1pdHRpbmciLCJtZXNzYWdlQ291bnQiLCJsZW5ndGgiLCJ0YXJnZXQiLCJCb29sZWFuIiwibWFwIiwib3B0aW9uIiwibGFiZWwiLCJfYyJdLCJpZ25vcmVMaXN0IjpbXSwic291cmNlcyI6WyJDb250YWN0Rm9ybS50c3giXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgdXNlSWQsIHVzZVJlZiwgdXNlU3RhdGUgfSBmcm9tICdyZWFjdCc7XG5pbXBvcnQgdHlwZSB7IEZvcm1FdmVudCB9IGZyb20gJ3JlYWN0JztcbmltcG9ydCB7XG4gIElOUVVJUllfT1BUSU9OUyxcbiAgTUVTU0FHRV9NQVgsXG4gIE1FU1NBR0VfTUlOLFxuICBjb250YWN0U2NoZW1hLFxuICBmaWVsZEVycm9yc0Zyb21Jc3N1ZXMsXG59IGZyb20gJ0AvbGliL2NvbnRhY3Qtc2NoZW1hJztcbmltcG9ydCB0eXBlIHsgQ29udGFjdEZpZWxkLCBDb250YWN0RmllbGRFcnJvcnMsIElucXVpcnlWYWx1ZSB9IGZyb20gJ0AvbGliL2NvbnRhY3Qtc2NoZW1hJztcbmltcG9ydCB7IEFsZXJ0SWNvbiwgQXJyb3dSaWdodCwgQ2hlY2tJY29uIH0gZnJvbSAnLi9pY29ucyc7XG5cbnR5cGUgU3RhdHVzID0gJ2lkbGUnIHwgJ3N1Ym1pdHRpbmcnIHwgJ3N1Y2Nlc3MnIHwgJ2Vycm9yJztcblxuaW50ZXJmYWNlIEZvcm1WYWx1ZXMge1xuICBuYW1lOiBzdHJpbmc7XG4gIGVtYWlsOiBzdHJpbmc7XG4gIGlucXVpcnk6IElucXVpcnlWYWx1ZTtcbiAgbWVzc2FnZTogc3RyaW5nO1xuICB3ZWJzaXRlOiBzdHJpbmc7XG59XG5cbmNvbnN0IGluaXRpYWxWYWx1ZXM6IEZvcm1WYWx1ZXMgPSB7XG4gIG5hbWU6ICcnLFxuICBlbWFpbDogJycsXG4gIGlucXVpcnk6ICdwcm9qZWN0JyxcbiAgbWVzc2FnZTogJycsXG4gIHdlYnNpdGU6ICcnLFxufTtcblxuY29uc3QgZmllbGRPcmRlcjogQ29udGFjdEZpZWxkW10gPSBbJ25hbWUnLCAnZW1haWwnLCAnaW5xdWlyeScsICdtZXNzYWdlJ107XG5cbmV4cG9ydCBmdW5jdGlvbiBDb250YWN0Rm9ybSgpIHtcbiAgY29uc3QgdWlkID0gdXNlSWQoKTtcbiAgY29uc3QgW3ZhbHVlcywgc2V0VmFsdWVzXSA9IHVzZVN0YXRlPEZvcm1WYWx1ZXM+KGluaXRpYWxWYWx1ZXMpO1xuICBjb25zdCBbZXJyb3JzLCBzZXRFcnJvcnNdID0gdXNlU3RhdGU8Q29udGFjdEZpZWxkRXJyb3JzPih7fSk7XG4gIGNvbnN0IFtzdGF0dXMsIHNldFN0YXR1c10gPSB1c2VTdGF0ZTxTdGF0dXM+KCdpZGxlJyk7XG4gIGNvbnN0IFtmb3JtRXJyb3IsIHNldEZvcm1FcnJvcl0gPSB1c2VTdGF0ZSgnJyk7XG4gIGNvbnN0IFtyZWZlcmVuY2UsIHNldFJlZmVyZW5jZV0gPSB1c2VTdGF0ZSgnJyk7XG4gIGNvbnN0IHN1Y2Nlc3NSZWYgPSB1c2VSZWY8SFRNTEhlYWRpbmdFbGVtZW50PihudWxsKTtcblxuICBjb25zdCBpZHM6IFJlY29yZDxDb250YWN0RmllbGQsIHN0cmluZz4gPSB7XG4gICAgbmFtZTogYCR7dWlkfS1uYW1lYCxcbiAgICBlbWFpbDogYCR7dWlkfS1lbWFpbGAsXG4gICAgaW5xdWlyeTogYCR7dWlkfS1pbnF1aXJ5YCxcbiAgICBtZXNzYWdlOiBgJHt1aWR9LW1lc3NhZ2VgLFxuICB9O1xuXG4gIGZ1bmN0aW9uIHVwZGF0ZTxLIGV4dGVuZHMga2V5b2YgRm9ybVZhbHVlcz4oa2V5OiBLLCB2YWx1ZTogRm9ybVZhbHVlc1tLXSkge1xuICAgIHNldFZhbHVlcygoY3VycmVudCkgPT4gKHsgLi4uY3VycmVudCwgW2tleV06IHZhbHVlIH0pKTtcbiAgICBpZiAoa2V5ICE9PSAnd2Vic2l0ZScgJiYgZXJyb3JzW2tleSBhcyBDb250YWN0RmllbGRdKSB7XG4gICAgICBzZXRFcnJvcnMoKGN1cnJlbnQpID0+ICh7IC4uLmN1cnJlbnQsIFtrZXldOiB1bmRlZmluZWQgfSkpO1xuICAgIH1cbiAgICBpZiAoc3RhdHVzID09PSAnZXJyb3InKSB7XG4gICAgICBzZXRTdGF0dXMoJ2lkbGUnKTtcbiAgICAgIHNldEZvcm1FcnJvcignJyk7XG4gICAgfVxuICB9XG5cbiAgZnVuY3Rpb24gdmFsaWRhdGVGaWVsZChmaWVsZDogQ29udGFjdEZpZWxkKSB7XG4gICAgY29uc3QgcmVzdWx0ID0gY29udGFjdFNjaGVtYS5zYWZlUGFyc2UodmFsdWVzKTtcbiAgICBjb25zdCBuZXh0ID0gcmVzdWx0LnN1Y2Nlc3MgPyB7fSA6IGZpZWxkRXJyb3JzRnJvbUlzc3VlcyhyZXN1bHQuZXJyb3IuaXNzdWVzKTtcbiAgICBzZXRFcnJvcnMoKGN1cnJlbnQpID0+ICh7IC4uLmN1cnJlbnQsIFtmaWVsZF06IG5leHRbZmllbGRdIH0pKTtcbiAgfVxuXG4gIGZ1bmN0aW9uIGhhbmRsZUJsdXIoZmllbGQ6IENvbnRhY3RGaWVsZCkge1xuICAgIHZhbGlkYXRlRmllbGQoZmllbGQpO1xuICB9XG5cbiAgYXN5bmMgZnVuY3Rpb24gaGFuZGxlU3VibWl0KGV2ZW50OiBGb3JtRXZlbnQ8SFRNTEZvcm1FbGVtZW50Pikge1xuICAgIGV2ZW50LnByZXZlbnREZWZhdWx0KCk7XG4gICAgc2V0Rm9ybUVycm9yKCcnKTtcbiAgICBzZXRSZWZlcmVuY2UoJycpO1xuXG4gICAgY29uc3QgcGFyc2VkID0gY29udGFjdFNjaGVtYS5zYWZlUGFyc2UodmFsdWVzKTtcbiAgICBpZiAoIXBhcnNlZC5zdWNjZXNzKSB7XG4gICAgICBjb25zdCBuZXh0RXJyb3JzID0gZmllbGRFcnJvcnNGcm9tSXNzdWVzKHBhcnNlZC5lcnJvci5pc3N1ZXMpO1xuICAgICAgc2V0RXJyb3JzKG5leHRFcnJvcnMpO1xuICAgICAgc2V0U3RhdHVzKCdlcnJvcicpO1xuICAgICAgc2V0Rm9ybUVycm9yKCdQbGVhc2UgY2hlY2sgdGhlIGhpZ2hsaWdodGVkIGZpZWxkcyBhbmQgdHJ5IGFnYWluLicpO1xuICAgICAgY29uc3QgZmlyc3RJbnZhbGlkID0gZmllbGRPcmRlci5maW5kKChmaWVsZCkgPT4gbmV4dEVycm9yc1tmaWVsZF0pO1xuICAgICAgaWYgKGZpcnN0SW52YWxpZCkgZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoaWRzW2ZpcnN0SW52YWxpZF0pPy5mb2N1cygpO1xuICAgICAgcmV0dXJuO1xuICAgIH1cblxuICAgIHNldEVycm9ycyh7fSk7XG4gICAgc2V0U3RhdHVzKCdzdWJtaXR0aW5nJyk7XG4gICAgY29uc3QgY29udHJvbGxlciA9IG5ldyBBYm9ydENvbnRyb2xsZXIoKTtcbiAgICBjb25zdCB0aW1lb3V0ID0gd2luZG93LnNldFRpbWVvdXQoKCkgPT4gY29udHJvbGxlci5hYm9ydCgpLCAyMF8wMDApO1xuXG4gICAgdHJ5IHtcbiAgICAgIGNvbnN0IHJlc3BvbnNlID0gYXdhaXQgZmV0Y2goJy9hcGkvY29udGFjdCcsIHtcbiAgICAgICAgbWV0aG9kOiAnUE9TVCcsXG4gICAgICAgIGhlYWRlcnM6IHsgJ0NvbnRlbnQtVHlwZSc6ICdhcHBsaWNhdGlvbi9qc29uJyB9LFxuICAgICAgICBib2R5OiBKU09OLnN0cmluZ2lmeSh7XG4gICAgICAgICAgbmFtZTogcGFyc2VkLmRhdGEubmFtZSxcbiAgICAgICAgICBlbWFpbDogcGFyc2VkLmRhdGEuZW1haWwsXG4gICAgICAgICAgaW5xdWlyeTogcGFyc2VkLmRhdGEuaW5xdWlyeSxcbiAgICAgICAgICBtZXNzYWdlOiBwYXJzZWQuZGF0YS5tZXNzYWdlLFxuICAgICAgICAgIHdlYnNpdGU6IHZhbHVlcy53ZWJzaXRlLFxuICAgICAgICB9KSxcbiAgICAgICAgc2lnbmFsOiBjb250cm9sbGVyLnNpZ25hbCxcbiAgICAgIH0pO1xuXG4gICAgICBjb25zdCBwYXlsb2FkID0gKGF3YWl0IHJlc3BvbnNlLmpzb24oKS5jYXRjaCgoKSA9PiAoe30pKSkgYXMge1xuICAgICAgICBvaz86IGJvb2xlYW47XG4gICAgICAgIGlkPzogc3RyaW5nO1xuICAgICAgICBlcnJvcj86IHN0cmluZztcbiAgICAgICAgZmllbGRFcnJvcnM/OiBDb250YWN0RmllbGRFcnJvcnM7XG4gICAgICB9O1xuXG4gICAgICBpZiAoIXJlc3BvbnNlLm9rKSB7XG4gICAgICAgIGlmIChwYXlsb2FkLmZpZWxkRXJyb3JzKSBzZXRFcnJvcnMocGF5bG9hZC5maWVsZEVycm9ycyk7XG4gICAgICAgIHNldEZvcm1FcnJvcihcbiAgICAgICAgICBwYXlsb2FkLmVycm9yID8/XG4gICAgICAgICAgICAnVGhlIG1lc3NhZ2UgY291bGQgbm90IGJlIHNlbnQgcmlnaHQgbm93LiBQbGVhc2UgdHJ5IGFnYWluIGluIGEgbW9tZW50LicsXG4gICAgICAgICk7XG4gICAgICAgIHNldFN0YXR1cygnZXJyb3InKTtcbiAgICAgICAgcmV0dXJuO1xuICAgICAgfVxuXG4gICAgICBzZXRSZWZlcmVuY2UocGF5bG9hZC5pZCA/PyAnJyk7XG4gICAgICBzZXRTdGF0dXMoJ3N1Y2Nlc3MnKTtcbiAgICAgIHNldFZhbHVlcyhpbml0aWFsVmFsdWVzKTtcbiAgICAgIHdpbmRvdy5zZXRUaW1lb3V0KCgpID0+IHN1Y2Nlc3NSZWYuY3VycmVudD8uZm9jdXMoKSwgNjApO1xuICAgIH0gY2F0Y2ggKGVycm9yKSB7XG4gICAgICBzZXRTdGF0dXMoJ2Vycm9yJyk7XG4gICAgICBzZXRGb3JtRXJyb3IoXG4gICAgICAgIGVycm9yIGluc3RhbmNlb2YgRE9NRXhjZXB0aW9uICYmIGVycm9yLm5hbWUgPT09ICdBYm9ydEVycm9yJ1xuICAgICAgICAgID8gJ1RoZSByZXF1ZXN0IHRvb2sgdG9vIGxvbmcuIENoZWNrIHlvdXIgY29ubmVjdGlvbiBhbmQgdHJ5IGFnYWluLidcbiAgICAgICAgICA6ICdUaGUgbWVzc2FnZSBjb3VsZCBub3QgYmUgc2VudC4gQ2hlY2sgeW91ciBjb25uZWN0aW9uIGFuZCB0cnkgYWdhaW4uJyxcbiAgICAgICk7XG4gICAgfSBmaW5hbGx5IHtcbiAgICAgIHdpbmRvdy5jbGVhclRpbWVvdXQodGltZW91dCk7XG4gICAgfVxuICB9XG5cbiAgaWYgKHN0YXR1cyA9PT0gJ3N1Y2Nlc3MnKSB7XG4gICAgcmV0dXJuIChcbiAgICAgIDxkaXYgY2xhc3NOYW1lPVwiZm9ybS1zdWNjZXNzXCIgcm9sZT1cInN0YXR1c1wiIGFyaWEtbGl2ZT1cInBvbGl0ZVwiPlxuICAgICAgICA8c3BhbiBjbGFzc05hbWU9XCJmb3JtLXN1Y2Nlc3NfX2ljb25cIiBhcmlhLWhpZGRlbj1cInRydWVcIj5cbiAgICAgICAgICA8Q2hlY2tJY29uIHNpemU9ezE4fSAvPlxuICAgICAgICA8L3NwYW4+XG4gICAgICAgIDxoMyBjbGFzc05hbWU9XCJmb3JtLXN1Y2Nlc3NfX3RpdGxlXCIgcmVmPXtzdWNjZXNzUmVmfSB0YWJJbmRleD17LTF9PlxuICAgICAgICAgIE1lc3NhZ2UgcmVjZWl2ZWRcbiAgICAgICAgPC9oMz5cbiAgICAgICAgPHAgY2xhc3NOYW1lPVwiZm9ybS1zdWNjZXNzX19ib2R5XCI+XG4gICAgICAgICAgVGhhbmtzIGZvciByZWFjaGluZyBvdXQuIFlvdXIgbWVzc2FnZSBpcyBzYWZlbHkgc3RvcmVkLCBhbmQgSSB3aWxsIHJlcGx5IHRvIHRoZSBlbWFpbFxuICAgICAgICAgIGFkZHJlc3MgeW91IHByb3ZpZGVkLiBJZiBpdCBpcyB1cmdlbnQsIHlvdSBjYW4gc2VuZCBhIGZvbGxvdy11cCB0aHJvdWdoIHRoZSBzYW1lIGZvcm0uXG4gICAgICAgIDwvcD5cbiAgICAgICAge3JlZmVyZW5jZSA/IChcbiAgICAgICAgICA8cCBjbGFzc05hbWU9XCJmb3JtLXN1Y2Nlc3NfX3JlZmVyZW5jZVwiPlJlZmVyZW5jZSDCtyB7cmVmZXJlbmNlLnNsaWNlKDAsIDgpfTwvcD5cbiAgICAgICAgKSA6IG51bGx9XG4gICAgICAgIDxidXR0b25cbiAgICAgICAgICB0eXBlPVwiYnV0dG9uXCJcbiAgICAgICAgICBjbGFzc05hbWU9XCJidG4gYnRuLS1zZWNvbmRhcnkgYnRuLS1zbWFsbFwiXG4gICAgICAgICAgb25DbGljaz17KCkgPT4ge1xuICAgICAgICAgICAgc2V0U3RhdHVzKCdpZGxlJyk7XG4gICAgICAgICAgICBzZXRFcnJvcnMoe30pO1xuICAgICAgICAgICAgc2V0Rm9ybUVycm9yKCcnKTtcbiAgICAgICAgICB9fVxuICAgICAgICA+XG4gICAgICAgICAgU2VuZCBhbm90aGVyIG1lc3NhZ2VcbiAgICAgICAgPC9idXR0b24+XG4gICAgICA8L2Rpdj5cbiAgICApO1xuICB9XG5cbiAgY29uc3Qgc3VibWl0dGluZyA9IHN0YXR1cyA9PT0gJ3N1Ym1pdHRpbmcnO1xuICBjb25zdCBtZXNzYWdlQ291bnQgPSB2YWx1ZXMubWVzc2FnZS5sZW5ndGg7XG5cbiAgcmV0dXJuIChcbiAgICA8Zm9ybSBjbGFzc05hbWU9XCJjb250YWN0LWZvcm1cIiBvblN1Ym1pdD17aGFuZGxlU3VibWl0fSBub1ZhbGlkYXRlPlxuICAgICAge3N0YXR1cyA9PT0gJ2Vycm9yJyAmJiBmb3JtRXJyb3IgPyAoXG4gICAgICAgIDxkaXYgY2xhc3NOYW1lPVwiZm9ybS1zdGF0dXMgZm9ybS1zdGF0dXMtLWVycm9yXCIgcm9sZT1cImFsZXJ0XCI+XG4gICAgICAgICAgPEFsZXJ0SWNvbiBzaXplPXsxN30gLz5cbiAgICAgICAgICA8c3Bhbj57Zm9ybUVycm9yfTwvc3Bhbj5cbiAgICAgICAgPC9kaXY+XG4gICAgICApIDogbnVsbH1cblxuICAgICAgPGRpdiBjbGFzc05hbWU9XCJmb3JtLXJvd1wiPlxuICAgICAgICA8ZGl2IGNsYXNzTmFtZT17YGZpZWxkJHtlcnJvcnMubmFtZSA/ICcgZmllbGQtLWludmFsaWQnIDogJyd9YH0+XG4gICAgICAgICAgPGxhYmVsIGNsYXNzTmFtZT1cImZpZWxkX19sYWJlbFwiIGh0bWxGb3I9e2lkcy5uYW1lfT5cbiAgICAgICAgICAgIE5hbWVcbiAgICAgICAgICA8L2xhYmVsPlxuICAgICAgICAgIDxpbnB1dFxuICAgICAgICAgICAgaWQ9e2lkcy5uYW1lfVxuICAgICAgICAgICAgbmFtZT1cIm5hbWVcIlxuICAgICAgICAgICAgY2xhc3NOYW1lPVwiZmllbGRfX2NvbnRyb2xcIlxuICAgICAgICAgICAgdHlwZT1cInRleHRcIlxuICAgICAgICAgICAgYXV0b0NvbXBsZXRlPVwibmFtZVwiXG4gICAgICAgICAgICB2YWx1ZT17dmFsdWVzLm5hbWV9XG4gICAgICAgICAgICBvbkNoYW5nZT17KGV2ZW50KSA9PiB1cGRhdGUoJ25hbWUnLCBldmVudC50YXJnZXQudmFsdWUpfVxuICAgICAgICAgICAgb25CbHVyPXsoKSA9PiBoYW5kbGVCbHVyKCduYW1lJyl9XG4gICAgICAgICAgICBhcmlhLWludmFsaWQ9e0Jvb2xlYW4oZXJyb3JzLm5hbWUpfVxuICAgICAgICAgICAgYXJpYS1kZXNjcmliZWRieT17ZXJyb3JzLm5hbWUgPyBgJHtpZHMubmFtZX0tZXJyb3JgIDogdW5kZWZpbmVkfVxuICAgICAgICAgICAgcGxhY2Vob2xkZXI9XCJZb3VyIG5hbWVcIlxuICAgICAgICAgICAgbWF4TGVuZ3RoPXs4MH1cbiAgICAgICAgICAgIHJlcXVpcmVkXG4gICAgICAgICAgLz5cbiAgICAgICAgICB7ZXJyb3JzLm5hbWUgPyAoXG4gICAgICAgICAgICA8cCBjbGFzc05hbWU9XCJmaWVsZF9fZXJyb3JcIiBpZD17YCR7aWRzLm5hbWV9LWVycm9yYH0+XG4gICAgICAgICAgICAgIDxBbGVydEljb24gc2l6ZT17MTN9IC8+XG4gICAgICAgICAgICAgIHtlcnJvcnMubmFtZX1cbiAgICAgICAgICAgIDwvcD5cbiAgICAgICAgICApIDogbnVsbH1cbiAgICAgICAgPC9kaXY+XG5cbiAgICAgICAgPGRpdiBjbGFzc05hbWU9e2BmaWVsZCR7ZXJyb3JzLmVtYWlsID8gJyBmaWVsZC0taW52YWxpZCcgOiAnJ31gfT5cbiAgICAgICAgICA8bGFiZWwgY2xhc3NOYW1lPVwiZmllbGRfX2xhYmVsXCIgaHRtbEZvcj17aWRzLmVtYWlsfT5cbiAgICAgICAgICAgIEVtYWlsXG4gICAgICAgICAgPC9sYWJlbD5cbiAgICAgICAgICA8aW5wdXRcbiAgICAgICAgICAgIGlkPXtpZHMuZW1haWx9XG4gICAgICAgICAgICBuYW1lPVwiZW1haWxcIlxuICAgICAgICAgICAgY2xhc3NOYW1lPVwiZmllbGRfX2NvbnRyb2xcIlxuICAgICAgICAgICAgdHlwZT1cImVtYWlsXCJcbiAgICAgICAgICAgIGlucHV0TW9kZT1cImVtYWlsXCJcbiAgICAgICAgICAgIGF1dG9Db21wbGV0ZT1cImVtYWlsXCJcbiAgICAgICAgICAgIHZhbHVlPXt2YWx1ZXMuZW1haWx9XG4gICAgICAgICAgICBvbkNoYW5nZT17KGV2ZW50KSA9PiB1cGRhdGUoJ2VtYWlsJywgZXZlbnQudGFyZ2V0LnZhbHVlKX1cbiAgICAgICAgICAgIG9uQmx1cj17KCkgPT4gaGFuZGxlQmx1cignZW1haWwnKX1cbiAgICAgICAgICAgIGFyaWEtaW52YWxpZD17Qm9vbGVhbihlcnJvcnMuZW1haWwpfVxuICAgICAgICAgICAgYXJpYS1kZXNjcmliZWRieT17ZXJyb3JzLmVtYWlsID8gYCR7aWRzLmVtYWlsfS1lcnJvcmAgOiB1bmRlZmluZWR9XG4gICAgICAgICAgICBwbGFjZWhvbGRlcj1cInlvdUBjb21wYW55LmNvbVwiXG4gICAgICAgICAgICBtYXhMZW5ndGg9ezI1NH1cbiAgICAgICAgICAgIHJlcXVpcmVkXG4gICAgICAgICAgLz5cbiAgICAgICAgICB7ZXJyb3JzLmVtYWlsID8gKFxuICAgICAgICAgICAgPHAgY2xhc3NOYW1lPVwiZmllbGRfX2Vycm9yXCIgaWQ9e2Ake2lkcy5lbWFpbH0tZXJyb3JgfT5cbiAgICAgICAgICAgICAgPEFsZXJ0SWNvbiBzaXplPXsxM30gLz5cbiAgICAgICAgICAgICAge2Vycm9ycy5lbWFpbH1cbiAgICAgICAgICAgIDwvcD5cbiAgICAgICAgICApIDogbnVsbH1cbiAgICAgICAgPC9kaXY+XG4gICAgICA8L2Rpdj5cblxuICAgICAgPGRpdiBjbGFzc05hbWU9e2BmaWVsZCR7ZXJyb3JzLmlucXVpcnkgPyAnIGZpZWxkLS1pbnZhbGlkJyA6ICcnfWB9PlxuICAgICAgICA8bGFiZWwgY2xhc3NOYW1lPVwiZmllbGRfX2xhYmVsXCIgaHRtbEZvcj17aWRzLmlucXVpcnl9PlxuICAgICAgICAgIFdoYXQgaXMgdGhpcyBhYm91dD9cbiAgICAgICAgPC9sYWJlbD5cbiAgICAgICAgPHNlbGVjdFxuICAgICAgICAgIGlkPXtpZHMuaW5xdWlyeX1cbiAgICAgICAgICBuYW1lPVwiaW5xdWlyeVwiXG4gICAgICAgICAgY2xhc3NOYW1lPVwiZmllbGRfX2NvbnRyb2xcIlxuICAgICAgICAgIHZhbHVlPXt2YWx1ZXMuaW5xdWlyeX1cbiAgICAgICAgICBvbkNoYW5nZT17KGV2ZW50KSA9PiB1cGRhdGUoJ2lucXVpcnknLCBldmVudC50YXJnZXQudmFsdWUgYXMgSW5xdWlyeVZhbHVlKX1cbiAgICAgICAgICBvbkJsdXI9eygpID0+IGhhbmRsZUJsdXIoJ2lucXVpcnknKX1cbiAgICAgICAgICBhcmlhLWludmFsaWQ9e0Jvb2xlYW4oZXJyb3JzLmlucXVpcnkpfVxuICAgICAgICAgIGFyaWEtZGVzY3JpYmVkYnk9e2Vycm9ycy5pbnF1aXJ5ID8gYCR7aWRzLmlucXVpcnl9LWVycm9yYCA6IHVuZGVmaW5lZH1cbiAgICAgICAgPlxuICAgICAgICAgIHtJTlFVSVJZX09QVElPTlMubWFwKChvcHRpb24pID0+IChcbiAgICAgICAgICAgIDxvcHRpb24ga2V5PXtvcHRpb24udmFsdWV9IHZhbHVlPXtvcHRpb24udmFsdWV9PlxuICAgICAgICAgICAgICB7b3B0aW9uLmxhYmVsfVxuICAgICAgICAgICAgPC9vcHRpb24+XG4gICAgICAgICAgKSl9XG4gICAgICAgIDwvc2VsZWN0PlxuICAgICAgICB7ZXJyb3JzLmlucXVpcnkgPyAoXG4gICAgICAgICAgPHAgY2xhc3NOYW1lPVwiZmllbGRfX2Vycm9yXCIgaWQ9e2Ake2lkcy5pbnF1aXJ5fS1lcnJvcmB9PlxuICAgICAgICAgICAgPEFsZXJ0SWNvbiBzaXplPXsxM30gLz5cbiAgICAgICAgICAgIHtlcnJvcnMuaW5xdWlyeX1cbiAgICAgICAgICA8L3A+XG4gICAgICAgICkgOiBudWxsfVxuICAgICAgPC9kaXY+XG5cbiAgICAgIDxkaXYgY2xhc3NOYW1lPXtgZmllbGQke2Vycm9ycy5tZXNzYWdlID8gJyBmaWVsZC0taW52YWxpZCcgOiAnJ31gfT5cbiAgICAgICAgPGxhYmVsIGNsYXNzTmFtZT1cImZpZWxkX19sYWJlbFwiIGh0bWxGb3I9e2lkcy5tZXNzYWdlfT5cbiAgICAgICAgICA8c3Bhbj5NZXNzYWdlPC9zcGFuPlxuICAgICAgICAgIDxzcGFuIGNsYXNzTmFtZT1cImZpZWxkX19vcHRpb25hbFwiPlxuICAgICAgICAgICAge21lc3NhZ2VDb3VudH0gLyB7TUVTU0FHRV9NQVh9XG4gICAgICAgICAgPC9zcGFuPlxuICAgICAgICA8L2xhYmVsPlxuICAgICAgICA8dGV4dGFyZWFcbiAgICAgICAgICBpZD17aWRzLm1lc3NhZ2V9XG4gICAgICAgICAgbmFtZT1cIm1lc3NhZ2VcIlxuICAgICAgICAgIGNsYXNzTmFtZT1cImZpZWxkX19jb250cm9sXCJcbiAgICAgICAgICB2YWx1ZT17dmFsdWVzLm1lc3NhZ2V9XG4gICAgICAgICAgb25DaGFuZ2U9eyhldmVudCkgPT4gdXBkYXRlKCdtZXNzYWdlJywgZXZlbnQudGFyZ2V0LnZhbHVlKX1cbiAgICAgICAgICBvbkJsdXI9eygpID0+IGhhbmRsZUJsdXIoJ21lc3NhZ2UnKX1cbiAgICAgICAgICBhcmlhLWludmFsaWQ9e0Jvb2xlYW4oZXJyb3JzLm1lc3NhZ2UpfVxuICAgICAgICAgIGFyaWEtZGVzY3JpYmVkYnk9e2Vycm9ycy5tZXNzYWdlID8gYCR7aWRzLm1lc3NhZ2V9LWVycm9yYCA6IGAke2lkcy5tZXNzYWdlfS1oaW50YH1cbiAgICAgICAgICBwbGFjZWhvbGRlcj1cIldoYXQgYXJlIHlvdSBidWlsZGluZywgd2hhdCBzdGFnZSBpcyBpdCBhdCwgYW5kIHdoYXQga2luZCBvZiBoZWxwIGRvIHlvdSBuZWVkP1wiXG4gICAgICAgICAgbWF4TGVuZ3RoPXtNRVNTQUdFX01BWH1cbiAgICAgICAgICBtaW5MZW5ndGg9e01FU1NBR0VfTUlOfVxuICAgICAgICAgIHJlcXVpcmVkXG4gICAgICAgIC8+XG4gICAgICAgIHtlcnJvcnMubWVzc2FnZSA/IChcbiAgICAgICAgICA8cCBjbGFzc05hbWU9XCJmaWVsZF9fZXJyb3JcIiBpZD17YCR7aWRzLm1lc3NhZ2V9LWVycm9yYH0+XG4gICAgICAgICAgICA8QWxlcnRJY29uIHNpemU9ezEzfSAvPlxuICAgICAgICAgICAge2Vycm9ycy5tZXNzYWdlfVxuICAgICAgICAgIDwvcD5cbiAgICAgICAgKSA6IChcbiAgICAgICAgICA8cCBjbGFzc05hbWU9XCJmaWVsZF9faGludFwiIGlkPXtgJHtpZHMubWVzc2FnZX0taGludGB9PlxuICAgICAgICAgICAgQSBmZXcgc2VudGVuY2VzIG9mIGNvbnRleHQgaXMgZW5vdWdoLiBQbGVhc2UgZG8gbm90IGluY2x1ZGUgcGFzc3dvcmRzIG9yIHNlbnNpdGl2ZVxuICAgICAgICAgICAgY3JlZGVudGlhbHMuXG4gICAgICAgICAgPC9wPlxuICAgICAgICApfVxuICAgICAgPC9kaXY+XG5cbiAgICAgIDxkaXYgY2xhc3NOYW1lPVwiaG9uZXlwb3RcIiBhcmlhLWhpZGRlbj1cInRydWVcIj5cbiAgICAgICAgPGxhYmVsIGh0bWxGb3I9e2Ake3VpZH0td2Vic2l0ZWB9PldlYnNpdGU8L2xhYmVsPlxuICAgICAgICA8aW5wdXRcbiAgICAgICAgICBpZD17YCR7dWlkfS13ZWJzaXRlYH1cbiAgICAgICAgICBuYW1lPVwid2Vic2l0ZVwiXG4gICAgICAgICAgdHlwZT1cInRleHRcIlxuICAgICAgICAgIHRhYkluZGV4PXstMX1cbiAgICAgICAgICBhdXRvQ29tcGxldGU9XCJvZmZcIlxuICAgICAgICAgIHZhbHVlPXt2YWx1ZXMud2Vic2l0ZX1cbiAgICAgICAgICBvbkNoYW5nZT17KGV2ZW50KSA9PiB1cGRhdGUoJ3dlYnNpdGUnLCBldmVudC50YXJnZXQudmFsdWUpfVxuICAgICAgICAvPlxuICAgICAgPC9kaXY+XG5cbiAgICAgIDxkaXY+XG4gICAgICAgIDxidXR0b24gdHlwZT1cInN1Ym1pdFwiIGNsYXNzTmFtZT1cImJ0biBidG4tLXByaW1hcnlcIiBkaXNhYmxlZD17c3VibWl0dGluZ30+XG4gICAgICAgICAge3N1Ym1pdHRpbmcgPyAoXG4gICAgICAgICAgICA8PlxuICAgICAgICAgICAgICA8c3BhbiBjbGFzc05hbWU9XCJzcGlubmVyXCIgYXJpYS1oaWRkZW49XCJ0cnVlXCIgLz5cbiAgICAgICAgICAgICAgU2VuZGluZ+KAplxuICAgICAgICAgICAgPC8+XG4gICAgICAgICAgKSA6IChcbiAgICAgICAgICAgIDw+XG4gICAgICAgICAgICAgIFNlbmQgbWVzc2FnZVxuICAgICAgICAgICAgICA8QXJyb3dSaWdodCBzaXplPXsxNX0gLz5cbiAgICAgICAgICAgIDwvPlxuICAgICAgICAgICl9XG4gICAgICAgIDwvYnV0dG9uPlxuICAgICAgPC9kaXY+XG5cbiAgICAgIDxwIGNsYXNzTmFtZT1cImZvcm0tbGVnYWxcIj5cbiAgICAgICAgWW91ciBkZXRhaWxzIGFyZSB1c2VkIG9ubHkgdG8gcmVwbHkgdG8gdGhpcyBpbnF1aXJ5LiBTdWJtaXNzaW9ucyBhcmUgc3RvcmVkIG9uIHRoZSBzZXJ2ZXJcbiAgICAgICAgYW5kLCBpZiBlbWFpbCBub3RpZmljYXRpb25zIGFyZSBjb25maWd1cmVkLCBkZWxpdmVyZWQgdG8gYSBwcml2YXRlIGluYm94LlxuICAgICAgPC9wPlxuICAgIDwvZm9ybT5cbiAgKTtcbn1cbiJdLCJmaWxlIjoiRTovUG9ydGZvbGlvL3NyYy9jb21wb25lbnRzL0NvbnRhY3RGb3JtLnRzeCJ9

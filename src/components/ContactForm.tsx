@@ -59,19 +59,11 @@ export function ContactForm() {
 
   function validateField(field: ContactField) {
     const result = contactSchema.safeParse(values);
-    if (!result.success) {
-      const next = fieldErrorsFromIssues(result.error.issues);
-      if (next[field]) {
-        setErrors((current) => ({ ...current, [field]: next[field] }));
-      }
-    }
+    const next = result.success ? {} : fieldErrorsFromIssues(result.error.issues);
+    setErrors((current) => ({ ...current, [field]: next[field] }));
   }
 
   function handleBlur(field: ContactField) {
-    if (values[field].toString().trim() === '') {
-      validateField(field);
-      return;
-    }
     validateField(field);
   }
 

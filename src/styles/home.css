@@ -18,7 +18,7 @@
   flex-wrap: wrap;
   gap: 0.35rem 0.75rem;
   font-family: var(--font-mono);
-  font-size: 0.64rem;
+  font-size: 0.68rem;
   letter-spacing: 0.13em;
   line-height: 1.7;
   text-transform: uppercase;
@@ -41,7 +41,7 @@
 .hero__motto {
   flex: none;
   font-family: var(--font-mono);
-  font-size: 0.63rem;
+  font-size: 0.66rem;
   letter-spacing: 0.14em;
   line-height: 1.9;
   text-transform: uppercase;
@@ -57,12 +57,13 @@
 .hero__display {
   display: flex;
   flex-wrap: nowrap;
-  gap: 0.2em;
-  margin: clamp(0.8rem, 1.8vw, 1.4rem) 0 clamp(-3.4rem, -3.2vw, -1.6rem);
+  justify-content: space-between;
+  gap: 0.12em;
+  margin: clamp(0.8rem, 1.8vw, 1.4rem) 0 clamp(-2.5rem, -2.2vw, -1.2rem);
   font-family: var(--font-display);
-  font-size: clamp(3rem, 9.7vw, 9.3rem);
+  font-size: clamp(3rem, 10.4vw, 9.7rem);
   font-weight: 400;
-  line-height: 0.79;
+  line-height: 0.82;
   letter-spacing: -0.025em;
   text-transform: uppercase;
   white-space: nowrap;
@@ -77,6 +78,9 @@
   z-index: 2;
   display: grid;
   grid-template-columns: minmax(230px, 0.82fr) minmax(0, 2.08fr) minmax(250px, 0.95fr);
+  grid-template-areas:
+    'left center right'
+    'left disciplines disciplines';
   gap: clamp(0.8rem, 1.4vw, 1.25rem);
   align-items: start;
 }
@@ -86,6 +90,18 @@
   min-width: 0;
   flex-direction: column;
   gap: clamp(0.8rem, 1.3vw, 1.15rem);
+}
+
+.hero__col--left {
+  grid-area: left;
+}
+
+.hero__col--center {
+  grid-area: center;
+}
+
+.hero__col--right {
+  grid-area: right;
 }
 
 /* ── Left: about & skills panels ──────────────────────────────────────────── */
@@ -122,7 +138,7 @@
 
 .fact-list__index {
   font-family: var(--font-mono);
-  font-size: 0.58rem;
+  font-size: 0.62rem;
   letter-spacing: 0.04em;
   color: var(--amber-strong);
 }
@@ -130,7 +146,7 @@
 .fact-list__label {
   display: block;
   font-family: var(--font-mono);
-  font-size: 0.57rem;
+  font-size: 0.62rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--muted);
@@ -139,7 +155,7 @@
 .fact-list__value {
   display: block;
   margin-top: 0.08rem;
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   font-weight: 500;
   line-height: 1.35;
   color: var(--ink-soft);
@@ -154,13 +170,13 @@
 .skill-tile {
   display: flex;
   align-items: center;
-  min-height: 36px;
-  padding: 0.35rem 0.5rem;
+  min-height: 38px;
+  padding: 0.38rem 0.52rem;
   border: 1px solid var(--line);
   border-radius: var(--radius-sm);
   background: var(--paper);
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.68rem;
   letter-spacing: 0.01em;
   color: var(--ink-soft);
   transition:
@@ -198,7 +214,7 @@
 .hero-card__greeting {
   margin-bottom: 0.35rem;
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: 0.71rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--muted-strong);
@@ -225,7 +241,7 @@
   gap: 0.35rem 0.5rem;
   margin-top: 0.75rem;
   font-family: var(--font-mono);
-  font-size: 0.63rem;
+  font-size: 0.68rem;
   letter-spacing: 0.06em;
   line-height: 1.6;
   text-transform: uppercase;
@@ -253,8 +269,16 @@
 .hero-card__actions {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 0.55rem;
   margin-top: 1.25rem;
+}
+
+.hero-card__socials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem 1rem;
+  margin-top: 0.9rem;
 }
 
 .hero-facts {
@@ -269,7 +293,7 @@
 .hero-fact__label {
   display: block;
   font-family: var(--font-mono);
-  font-size: 0.56rem;
+  font-size: 0.61rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--muted);
@@ -278,7 +302,7 @@
 .hero-fact__value {
   display: block;
   margin-top: 0.2rem;
-  font-size: 0.76rem;
+  font-size: 0.8rem;
   font-weight: 500;
   line-height: 1.35;
   color: var(--ink-soft);
@@ -324,6 +348,17 @@
   padding-bottom: 8%;
 }
 
+.portrait-plate__cross {
+  position: absolute;
+  top: 0.65rem;
+  right: 0.7rem;
+  z-index: 2;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  line-height: 1;
+  color: var(--amber-strong);
+}
+
 .portrait-plate__side {
   position: absolute;
   top: 0.85rem;
@@ -331,7 +366,7 @@
   z-index: 2;
   writing-mode: vertical-rl;
   font-family: var(--font-mono);
-  font-size: 0.52rem;
+  font-size: 0.56rem;
   letter-spacing: 0.17em;
   text-transform: uppercase;
   color: var(--muted-strong);
@@ -351,7 +386,7 @@
   border-top: 1px solid var(--line);
   background: var(--surface);
   font-family: var(--font-mono);
-  font-size: 0.52rem;
+  font-size: 0.58rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--muted-strong);
@@ -421,7 +456,7 @@
 .mini-project__category {
   display: block;
   font-family: var(--font-mono);
-  font-size: 0.55rem;
+  font-size: 0.61rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--muted);
@@ -430,7 +465,7 @@
 .mini-project__title {
   display: block;
   margin-top: 0.1rem;
-  font-size: 0.79rem;
+  font-size: 0.82rem;
   font-weight: 600;
   line-height: 1.35;
   transition: color 0.18s var(--ease);
@@ -465,13 +500,13 @@
   align-items: center;
   justify-content: space-between;
   gap: 0.5rem;
-  min-height: 38px;
-  padding: 0.4rem 0.55rem;
+  min-height: 40px;
+  padding: 0.42rem 0.6rem;
   border: 1px solid var(--line);
   border-radius: var(--radius-sm);
   background: var(--paper);
   font-family: var(--font-mono);
-  font-size: 0.63rem;
+  font-size: 0.68rem;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--ink-soft);
@@ -488,11 +523,73 @@
 
 .connect-panel__note {
   font-family: var(--font-mono);
-  font-size: 0.56rem;
+  font-size: 0.61rem;
   letter-spacing: 0.06em;
   line-height: 1.6;
   text-transform: uppercase;
   color: var(--muted);
+}
+
+/* ── Discipline links ─────────────────────────────────────────────────────── */
+
+.disciplines {
+  grid-area: disciplines;
+  align-self: start;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  overflow: hidden;
+  margin-top: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--line);
+}
+
+.discipline {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 0.75rem;
+  align-items: center;
+  padding: 0.9rem 1rem;
+  background: var(--surface);
+  transition: background-color 0.18s var(--ease);
+}
+
+.discipline:hover {
+  background: var(--paper);
+}
+
+.discipline__index {
+  align-self: start;
+  padding-top: 0.15rem;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.07em;
+  color: var(--amber-strong);
+}
+
+.discipline__title {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.discipline__body {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--muted-strong);
+}
+
+.discipline__arrow {
+  color: var(--muted);
+  transition: color 0.18s var(--ease);
+}
+
+.discipline:hover .discipline__arrow {
+  color: var(--amber-strong);
 }
 
 /* ── Recent projects ──────────────────────────────────────────────────────── */
@@ -545,12 +642,12 @@
   top: 0.65rem;
   left: 0.65rem;
   z-index: 2;
-  padding: 0.22rem 0.45rem;
+  padding: 0.24rem 0.48rem;
   border: 1px solid var(--line);
   border-radius: var(--radius-sm);
   background: var(--surface);
   font-family: var(--font-mono);
-  font-size: 0.57rem;
+  font-size: 0.64rem;
   letter-spacing: 0.07em;
   text-transform: uppercase;
   color: var(--muted-strong);
@@ -614,7 +711,7 @@
   padding-top: 0.65rem;
   border-top: 1px solid var(--line);
   font-family: var(--font-mono);
-  font-size: 0.57rem;
+  font-size: 0.64rem;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--muted);
@@ -662,14 +759,14 @@
 
 .capability__index {
   font-family: var(--font-mono);
-  font-size: 0.6rem;
+  font-size: 0.64rem;
   letter-spacing: 0.08em;
   color: var(--amber-strong);
 }
 
 .capability__kicker {
   font-family: var(--font-mono);
-  font-size: 0.52rem;
+  font-size: 0.59rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--muted);
@@ -685,7 +782,7 @@
 
 .capability__desc {
   min-height: 3.4em;
-  font-size: 0.78rem;
+  font-size: 0.82rem;
   line-height: 1.55;
   color: var(--muted-strong);
 }
@@ -702,7 +799,7 @@
 
 .capability__items li {
   font-family: var(--font-mono);
-  font-size: 0.6rem;
+  font-size: 0.69rem;
   line-height: 1.5;
   color: var(--muted-strong);
 }
@@ -712,10 +809,15 @@
   color: var(--line-strong);
 }
 
+.capability__link {
+  margin-top: 0.65rem;
+  align-self: flex-start;
+}
+
 .toolkit-note {
   max-width: 66ch;
   margin-top: 1rem;
-  font-size: 0.8rem;
+  font-size: 0.84rem;
   line-height: 1.6;
   color: var(--muted-strong);
 }
@@ -784,7 +886,7 @@
 .flow__index {
   display: block;
   font-family: var(--font-mono);
-  font-size: 0.56rem;
+  font-size: 0.61rem;
   letter-spacing: 0.08em;
   color: var(--muted);
 }
@@ -792,7 +894,7 @@
 .flow__label {
   display: block;
   margin-top: 0.2rem;
-  font-size: 0.78rem;
+  font-size: 0.82rem;
   font-weight: 600;
   letter-spacing: 0.01em;
 }
@@ -885,11 +987,14 @@
 @media (max-width: 1180px) {
   .hero__grid {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-areas:
+      'center center'
+      'left right'
+      'disciplines disciplines';
   }
 
   .hero__col--center {
     grid-column: 1 / -1;
-    order: 1;
   }
 
   .hero__col--left {
@@ -898,6 +1003,10 @@
 
   .hero__col--right {
     order: 3;
+  }
+
+  .disciplines {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .hero-card__body {
@@ -957,6 +1066,7 @@
   .hero__display {
     font-size: clamp(2.8rem, 11vw, 5.6rem);
     margin-bottom: 1.25rem;
+    justify-content: space-between;
   }
 
   .hero-card__body {
@@ -977,10 +1087,24 @@
 @media (max-width: 760px) {
   .hero__display {
     flex-direction: column;
+    justify-content: flex-start;
     gap: 0;
     font-size: clamp(3.3rem, 19vw, 6rem);
     line-height: 0.83;
     margin-bottom: 1.4rem;
+  }
+
+  .hero__grid {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'center'
+      'left'
+      'right'
+      'disciplines';
+  }
+
+  .hero__col--center {
+    grid-column: auto;
   }
 
   .hero-card__body {
@@ -988,7 +1112,6 @@
   }
 
   .portrait-plate {
-    order: -1;
     aspect-ratio: 16 / 9;
     margin-top: 0.25rem;
   }
@@ -1020,6 +1143,10 @@
   }
 
   .capability-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .disciplines {
     grid-template-columns: 1fr;
   }
 

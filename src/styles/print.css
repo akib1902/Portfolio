@@ -1,0 +1,89 @@
+@media print {
+  @page {
+    margin: 14mm 15mm;
+    size: A4;
+  }
+
+  :root {
+    --paper: #ffffff;
+    --surface: #ffffff;
+    --ink: #111111;
+    --ink-soft: #222222;
+    --muted-strong: #444444;
+    --muted: #555555;
+    --line: #cccccc;
+    --amber-strong: #6f4610;
+  }
+
+  html,
+  body {
+    background: #ffffff !important;
+    color: #111111;
+    font-size: 10.5pt;
+  }
+
+  .site-header,
+  .site-footer,
+  .skip-link,
+  .resume-toolbar,
+  .print-hidden,
+  .cta-band {
+    display: none !important;
+  }
+
+  .page {
+    animation: none !important;
+  }
+
+  main {
+    display: block;
+  }
+
+  .container {
+    max-width: none;
+    padding: 0;
+  }
+
+  .resume-wrap {
+    padding: 0;
+  }
+
+  .resume-sheet {
+    max-width: none;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    background: #ffffff;
+  }
+
+  .resume-head {
+    border-bottom-color: #111111;
+  }
+
+  .resume-section {
+    padding-top: 10pt;
+  }
+
+  .resume-project,
+  .resume-skill-row {
+    break-inside: avoid;
+  }
+
+  .resume-section__title {
+    color: #6f4610;
+  }
+
+  .resume-footnote {
+    color: #555555;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .resume-head__meta a::after {
+    content: '';
+  }
+}

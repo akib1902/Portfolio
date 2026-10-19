@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import express from 'express';
-import type { ErrorRequestHandler, Request, Response } from 'express';
+import type { ErrorRequestHandler, Request } from 'express';
 import { createServer } from 'node:http';
 import { appendFile, mkdir } from 'node:fs/promises';
 import { randomUUID } from 'node:crypto';
@@ -14,7 +14,8 @@ import { createRateLimiter } from './rate-limit';
 import { buildContactEmail } from './email';
 
 const isProduction = process.env.NODE_ENV === 'production';
-const port = Number(process.env.PORT ?? 3000);
+const configuredPort = Number(process.env.PORT);
+const port = Number.isInteger(configuredPort) && configuredPort > 0 ? configuredPort : 3000;
 const host = process.env.HOST ?? (isProduction ? '0.0.0.0' : '127.0.0.1');
 const siteUrl = (process.env.SITE_URL ?? '').replace(/\/+$/, '');
 const dataDir = path.resolve(process.env.DATA_DIR ?? 'data');
@@ -300,4 +301,3 @@ function escapeXml(value: string): string {
     .replaceAll("'", '&apos;');
 }
 
-export type { Response };

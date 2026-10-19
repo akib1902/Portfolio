@@ -54,6 +54,10 @@ html {
   scroll-behavior: smooth;
 }
 
+main:focus {
+  outline: none;
+}
+
 body {
   margin: 0;
   background: var(--paper);
@@ -182,7 +186,7 @@ hr {
   align-items: center;
   gap: 0.55rem;
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: 0.72rem;
   font-weight: 500;
   letter-spacing: 0.15em;
   text-transform: uppercase;
@@ -204,7 +208,7 @@ hr {
 .section-index {
   color: var(--amber-strong);
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: 0.72rem;
   letter-spacing: 0.12em;
 }
 
@@ -367,7 +371,7 @@ hr {
   align-items: center;
   gap: 0.45rem;
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: 0.71rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--muted-strong);
@@ -519,7 +523,7 @@ hr {
 
 .mobile-nav__note {
   font-family: var(--font-mono);
-  font-size: 0.63rem;
+  font-size: 0.66rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--muted-strong);
@@ -563,7 +567,7 @@ hr {
   align-items: center;
   gap: 0.45rem;
   font-family: var(--font-mono);
-  font-size: 0.65rem;
+  font-size: 0.68rem;
   font-weight: 500;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -603,13 +607,13 @@ hr {
 .chip {
   display: inline-flex;
   align-items: center;
-  min-height: 22px;
-  padding: 0.1rem 0.45rem;
+  min-height: 24px;
+  padding: 0.12rem 0.48rem;
   border: 1px solid var(--line);
   border-radius: var(--radius-sm);
   background: var(--paper);
   font-family: var(--font-mono);
-  font-size: 0.64rem;
+  font-size: 0.7rem;
   letter-spacing: 0.015em;
   color: var(--muted-strong);
   white-space: nowrap;
@@ -625,12 +629,12 @@ hr {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  padding: 0.22rem 0.5rem;
+  padding: 0.25rem 0.55rem;
   border: 1px solid var(--line);
   border-radius: var(--radius-sm);
   background: var(--surface);
   font-family: var(--font-mono);
-  font-size: 0.63rem;
+  font-size: 0.68rem;
   letter-spacing: 0.03em;
   color: var(--muted-strong);
   white-space: nowrap;
@@ -689,7 +693,7 @@ hr {
 .footer-heading {
   margin-bottom: 0.75rem;
   font-family: var(--font-mono);
-  font-size: 0.63rem;
+  font-size: 0.66rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: #b6ae9e;
@@ -729,7 +733,7 @@ hr {
   border: 1px solid rgba(240, 235, 223, 0.22);
   border-radius: var(--radius-sm);
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.66rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: #e6e0d3;
@@ -752,7 +756,7 @@ hr {
   padding-block: 1.15rem;
   border-top: 1px solid rgba(240, 235, 223, 0.14);
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.65rem;
   letter-spacing: 0.06em;
   color: #a8a091;
 }
@@ -766,6 +770,26 @@ hr {
 
 .site-footer__bottom a:hover {
   color: var(--amber);
+}
+
+.contact-link__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.info-card__meta {
+  padding-top: 0.55rem;
+  border-top: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted-strong) !important;
+}
+
+.gallery-note {
+  margin-bottom: var(--gutter);
 }
 
 /* ── Forms ────────────────────────────────────────────────────────────────── */
@@ -810,7 +834,8 @@ hr {
 }
 
 .field__control::placeholder {
-  color: #8c867a;
+  color: #6e6a60;
+  opacity: 1;
 }
 
 .field__control:hover {
