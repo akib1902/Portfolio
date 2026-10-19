@@ -94,9 +94,13 @@ export default function About() {
           <aside className="about-aside" aria-label="Profile details">
             <div className="side-card">
               <h2 className="side-card__title">Availability</h2>
-              <p className="status">
+              <p
+                className={`status${profile.availability.available ? '' : ' status--offline'}`}
+              >
                 <span className="status__dot" aria-hidden="true" />
-                {profile.availability.label}
+                {profile.availability.available
+                  ? profile.availability.label
+                  : 'Currently unavailable'}
               </p>
               <p className="side-card__note">{profile.availability.detail}</p>
             </div>
@@ -286,7 +290,9 @@ export default function About() {
       <section className="cta-band" aria-labelledby="about-cta-title">
         <div className="container cta-band__inner">
           <div>
-            <p className="eyebrow cta-band__eyebrow">Available for work</p>
+            <p className="eyebrow cta-band__eyebrow">
+              {profile.availability.available ? 'Available for work' : 'Get in touch'}
+            </p>
             <h2 className="cta-band__title" id="about-cta-title">
               Bring me the part that <span>keeps breaking.</span>
             </h2>

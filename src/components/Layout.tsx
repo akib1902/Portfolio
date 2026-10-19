@@ -12,13 +12,11 @@ const navItems = [
 
 function ScrollToTop() {
   const { pathname, hash } = useLocation();
-  const firstRender = useRef(true);
+  const previousPath = useRef(pathname);
 
   useEffect(() => {
-    if (firstRender.current) {
-      firstRender.current = false;
-      return;
-    }
+    if (previousPath.current === pathname && !hash) return;
+    previousPath.current = pathname;
 
     if (hash) {
       const target = document.getElementById(hash.slice(1));
@@ -182,7 +180,11 @@ function Footer() {
                 <span>{profile.workPreference}</span>
               </li>
               <li>
-                <span>{profile.availability.label}</span>
+                <span>
+                  {profile.availability.available
+                    ? profile.availability.label
+                    : 'Currently unavailable'}
+                </span>
               </li>
             </ul>
           </div>

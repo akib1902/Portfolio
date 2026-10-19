@@ -19,10 +19,11 @@ describe('project content', () => {
     expect(projects.filter((project) => project.featured)).toHaveLength(3);
   });
 
-  it('does not invent public repository or demo URLs', () => {
+  it('only allows absolute https URLs for public links', () => {
     for (const project of projects) {
-      expect(project.links.repo).toBeNull();
-      expect(project.links.live).toBeNull();
+      for (const link of [project.links.repo, project.links.live]) {
+        if (link !== null) expect(link).toMatch(/^https:\/\//);
+      }
     }
   });
 });

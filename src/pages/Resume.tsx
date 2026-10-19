@@ -69,7 +69,11 @@ export default function Resume() {
                 {profile.location} · {profile.timezone}
               </span>
               <span>{profile.workPreference}</span>
-              <span>{profile.availability.label}</span>
+              <span>
+                {profile.availability.available
+                  ? profile.availability.label
+                  : 'Currently unavailable'}
+              </span>
               {mailto ? (
                 <a href={mailto}>{profile.email}</a>
               ) : (

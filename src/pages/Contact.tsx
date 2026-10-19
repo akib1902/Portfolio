@@ -28,11 +28,18 @@ export default function Contact() {
             </h1>
             <p className="page-head__intro">
               A project that needs a steady hand, a role that spans the delivery path, or a
-              technical conversation — the form below reaches me directly. No pitch deck required.
+              technical conversation — the form below is the best place to start. No pitch deck
+              required.
             </p>
           </div>
           <div className="page-head__meta">
-            <span className="badge badge--green">Available for opportunities</span>
+            <span
+              className={`badge ${profile.availability.available ? 'badge--green' : ''}`.trim()}
+            >
+              {profile.availability.available
+                ? profile.availability.label
+                : 'Currently unavailable'}
+            </span>
             <span className="badge">Freelance &amp; full-time</span>
             <span className="badge">Remote-friendly</span>
           </div>
@@ -53,9 +60,11 @@ export default function Contact() {
             <div className="info-card">
               <h2 className="info-card__title">
                 Availability
-                <span className="status">
+                <span
+                  className={`status${profile.availability.available ? '' : ' status--offline'}`}
+                >
                   <span className="status__dot" aria-hidden="true" />
-                  Available
+                  {profile.availability.available ? 'Available' : 'Closed'}
                 </span>
               </h2>
               <div className="info-card__body">

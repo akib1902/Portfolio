@@ -1,6 +1,8 @@
 import 'dotenv/config';
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
+import { inquiryLabel } from '../src/lib/contact-schema';
+import type { InquiryValue } from '../src/lib/contact-schema';
 
 interface StoredMessage {
   id: string;
@@ -26,7 +28,9 @@ try {
     console.log(`${messages.length} message${messages.length === 1 ? '' : 's'} in ${file}\n`);
     messages.reverse().forEach((message, index) => {
       console.log('─'.repeat(64));
-      console.log(`#${index + 1}  ${message.receivedAt}  [${message.inquiry}]`);
+      console.log(
+        `#${index + 1}  ${message.receivedAt}  [${inquiryLabel(message.inquiry as InquiryValue)}]`,
+      );
       console.log(`${message.name} <${message.email}>`);
       console.log('');
       console.log(message.message);

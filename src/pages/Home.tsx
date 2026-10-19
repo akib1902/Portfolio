@@ -179,7 +179,9 @@ export default function Home() {
                         className={`status${profile.availability.available ? '' : ' status--offline'}`}
                       >
                         <span className="status__dot" aria-hidden="true" />
-                        {profile.availability.label}
+                        {profile.availability.available
+                          ? profile.availability.label
+                          : 'Currently unavailable'}
                       </span>
                     </p>
                     <p className="hero-card__intro">{profile.intro}</p>
@@ -283,9 +285,11 @@ export default function Home() {
                   <h2 className="panel__title" id="connect-panel-title">
                     Let&apos;s connect
                   </h2>
-                  <span className="status">
+                  <span
+                    className={`status${profile.availability.available ? '' : ' status--offline'}`}
+                  >
                     <span className="status__dot" aria-hidden="true" />
-                    Open
+                    {profile.availability.available ? 'Open' : 'Closed'}
                   </span>
                 </div>
                 <div className="panel__body connect-panel__body">
