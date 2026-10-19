@@ -28,7 +28,7 @@ export default function Projects() {
   useEffect(() => {
     if (isProjectFilter(categoryParam)) {
       setFilter((current) => (current === categoryParam ? current : categoryParam));
-    } else if (categoryParam === null) {
+    } else {
       setFilter((current) => (current === 'All' ? current : 'All'));
     }
   }, [categoryParam]);
@@ -116,6 +116,8 @@ export default function Projects() {
           <span>Code links are added when a repository becomes public</span>
         </p>
 
+        <h2 className="sr-only">Project case studies</h2>
+
         {visibleProjects.length > 0 ? (
           <div className="projects-grid">
             {visibleProjects.map((project) => (
@@ -153,6 +155,29 @@ export default function Projects() {
           </div>
         </aside>
       </div>
+
+      <section className="cta-band" aria-labelledby="projects-cta-title">
+        <div className="container cta-band__inner">
+          <div>
+            <p className="eyebrow cta-band__eyebrow">Have a system like this?</p>
+            <h2 className="cta-band__title" id="projects-cta-title">
+              Let&apos;s make the next one <span>easier to trust.</span>
+            </h2>
+          </div>
+          <div className="cta-band__aside">
+            <p className="cta-band__note">
+              Tell me what is breaking, what is slow, or what needs to ship — I will be direct about
+              whether I can help.
+            </p>
+            <Link to="/contact" className="btn btn--primary">
+              Start a conversation <ArrowUpRight size={15} />
+            </Link>
+            <Link to="/about" className="btn btn--secondary">
+              About my approach <ArrowRight size={15} />
+            </Link>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

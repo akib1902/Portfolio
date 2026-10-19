@@ -99,7 +99,7 @@ function check(name, condition, detail = '') {
     waitUntil: 'networkidle0',
   });
   const qaCards = await page.$$eval('.projects-grid .project-card', (cards) => cards.length);
-  check('deep-linked category filter is applied', qaCards === 2, String(qaCards));
+  check('deep-linked category filter is applied', qaCards === 3, String(qaCards));
   await page.close();
 }
 

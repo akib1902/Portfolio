@@ -269,9 +269,14 @@ export default function About() {
                 <Link to="/resume" className="btn btn--primary btn--small">
                   View resume <ArrowRight size={13} />
                 </Link>
-                <Link to="/contact" className="btn btn--secondary btn--small">
-                  Get in touch
-                </Link>
+                <a
+                  href={profile.resume.pdf}
+                  className="btn btn--secondary btn--small"
+                  download="Akib-Ahmed-Resume.pdf"
+                >
+                  <DownloadIcon size={13} />
+                  PDF
+                </a>
               </div>
             </div>
           </div>

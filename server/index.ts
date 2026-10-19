@@ -22,7 +22,7 @@ const dataDir = path.resolve(process.env.DATA_DIR ?? 'data');
 const submissionsFile = path.join(dataDir, 'contact-submissions.jsonl');
 const distDir = path.resolve('dist');
 
-const contactLimiter = createRateLimiter({ windowMs: 15 * 60 * 1000, max: 5 });
+const contactLimiter = createRateLimiter({ windowMs: 15 * 60 * 1000, max: 8 });
 
 const smtpHost = process.env.SMTP_HOST?.trim();
 const contactTo = process.env.CONTACT_TO_EMAIL?.trim();
@@ -60,7 +60,7 @@ app.use((_req, res, next) => {
         "frame-ancestors 'none'",
         "img-src 'self' data:",
         "font-src 'self'",
-        "style-src 'self' 'unsafe-inline'",
+        "style-src 'self'",
         "script-src 'self'",
         "connect-src 'self'",
       ].join('; '),
@@ -238,10 +238,28 @@ if (isProduction) {
       },
     }),
   );
+  const knownRoutes = new Set([
+    '/',
+    '/about',
+    '/projects',
+    '/contact',
+    '/resume',
+    ...projects.map((project) => `/projects/${project.slug}`),
+  ]);
+
   app.use((req, res, next) => {
     if (req.method !== 'GET' && req.method !== 'HEAD') return next();
+    let pathname: string;
+    try {
+      pathname = decodeURIComponent(req.path).replace(/\/+$/, '') || '/';
+    } catch {
+      res.status(400).type('text/plain').send('Bad request');
+      return;
+    }
+    const status = knownRoutes.has(pathname) ? 200 : 404;
     res.setHeader('Cache-Control', 'no-store');
-    res.sendFile(path.join(distDir, 'index.html'));
+    if (status === 404) res.setHeader('X-Robots-Tag', 'noindex');
+    res.status(status).sendFile(path.join(distDir, 'index.html'));
   });
 } else {
   const { createServer: createViteServer } = await import('vite');

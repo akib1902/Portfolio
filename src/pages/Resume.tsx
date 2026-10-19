@@ -3,7 +3,7 @@ import { activeSocialLinks, contactMailto, profile } from '@/content/profile';
 import { projects } from '@/content/projects';
 import { skillGroups } from '@/content/skills';
 import { usePageMeta } from '@/lib/use-page-meta';
-import { ArrowLeft, PrintIcon } from '@/components/icons';
+import { ArrowLeft, DownloadIcon, PrintIcon } from '@/components/icons';
 
 export default function Resume() {
   usePageMeta({
@@ -18,8 +18,7 @@ export default function Resume() {
 
   return (
     <div className="page">
-      <div className="container">
-        <div className="resume-toolbar print-hidden">
+      <div className="container">          <div className="resume-toolbar print-hidden">
           <div>
             <p className="eyebrow">
               <span className="section-index">05</span> Resume
@@ -36,12 +35,20 @@ export default function Resume() {
             </Link>
             <button
               type="button"
-              className="btn btn--primary btn--small"
+              className="btn btn--secondary btn--small"
               onClick={() => window.print()}
             >
               <PrintIcon size={14} />
-              Print / save as PDF
+              Print
             </button>
+            <a
+              href={profile.resume.pdf}
+              className="btn btn--primary btn--small"
+              download="Akib-Ahmed-Resume.pdf"
+            >
+              <DownloadIcon size={14} />
+              Download PDF
+            </a>
           </div>
         </div>
       </div>

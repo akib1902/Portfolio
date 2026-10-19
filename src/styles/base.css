@@ -943,6 +943,19 @@ select.field__control {
   animation: page-in 0.4s var(--ease) both;
 }
 
+.route-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  min-height: 60vh;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted-strong);
+}
+
 @keyframes page-in {
   from {
     opacity: 0;

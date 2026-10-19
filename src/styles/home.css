@@ -982,6 +982,12 @@
   border-color: var(--paper);
 }
 
+.cta-band :focus-visible,
+.site-footer :focus-visible {
+  outline-color: var(--paper);
+  outline-offset: 3px;
+}
+
 /* ── Responsive ───────────────────────────────────────────────────────────── */
 
 @media (max-width: 1180px) {

@@ -14,7 +14,7 @@ export default function ProjectDetail() {
   }
 
   usePageMeta({
-    title: `${project.title} — Case study | Akib Ahmed`,
+    title: `${project.shortTitle} — Case study | Akib Ahmed`,
     description: project.summary,
     path: `/projects/${project.slug}`,
     type: 'article',

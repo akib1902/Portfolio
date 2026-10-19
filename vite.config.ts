@@ -13,6 +13,9 @@ export default defineConfig({
     target: 'es2022',
     cssCodeSplit: true,
     sourcemap: false,
+    // Keep fonts and other assets as separate files so a strict CSP never
+    // needs to allow data: fonts.
+    assetsInlineLimit: 0,
   },
   server: {
     // Express owns the port; Vite runs in middleware mode.

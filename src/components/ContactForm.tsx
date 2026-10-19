@@ -145,8 +145,9 @@ export function ContactForm() {
           Message received
         </h3>
         <p className="form-success__body">
-          Thanks for reaching out. Your message is safely stored, and I will reply to the email
-          address you provided. If it is urgent, you can send a follow-up through the same form.
+          Thanks for reaching out. Your message has been received and saved, and I will reply to
+          the email address you provided. If it is urgent, you can send a follow-up through the
+          same form.
         </p>
         {reference ? (
           <p className="form-success__reference">Reference · {reference.slice(0, 8)}</p>
@@ -327,8 +328,8 @@ export function ContactForm() {
       </div>
 
       <p className="form-legal">
-        Your details are used only to reply to this inquiry. Submissions are stored on the server
-        and, if email notifications are configured, delivered to a private inbox.
+        Your details are used only to reply to this inquiry. They are handled privately and never
+        sold or shared.
       </p>
     </form>
   );

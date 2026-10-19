@@ -56,8 +56,9 @@ export const profile = {
   portraitAlt: 'Portrait of Akib Ahmed',
   resume: {
     href: '/resume',
+    pdf: '/akib-ahmed-resume.pdf',
     label: 'Resume',
-    note: 'Print-ready resume. Use your browser to save it as a PDF.',
+    note: 'Print-ready resume. Download the PDF or use your browser to save a fresh copy.',
   },
   responseNote:
     'I read every message myself. Share a little context about what you are building and the timeline you have in mind.',

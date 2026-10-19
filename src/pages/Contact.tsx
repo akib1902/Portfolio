@@ -75,7 +75,7 @@ export default function Contact() {
                     <span className="info-list__mark" aria-hidden="true">
                       01
                     </span>
-                    <span>Your message is validated and stored securely on this site&apos;s server.</span>
+                    <span>Your message is validated and saved on this site&apos;s server.</span>
                   </li>
                   <li>
                     <span className="info-list__mark" aria-hidden="true">
