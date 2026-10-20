@@ -1,6 +1,8 @@
-import { profile } from '@/content/profile';
+import { useProfile } from '@/lib/content';
 
 export function PortraitPlate() {
+  const profile = useProfile();
+
   if (profile.portrait) {
     return (
       <div className="portrait-plate portrait-plate--photo">

@@ -1,58 +1,28 @@
-export const projectFilters = [
-  'All',
-  'Full-Stack',
-  'Backend',
-  'DevOps',
-  'QA / Automation',
-] as const;
+import type { Project } from './types';
 
-export type ProjectFilter = (typeof projectFilters)[number];
-export type ProjectCategory = Exclude<ProjectFilter, 'All'>;
-export type DiagramKind = 'agent' | 'platform' | 'pipeline';
+export { projectFilters } from './types';
+export type { CaseStudySection, DiagramKind, Project, ProjectCategory, ProjectFilter } from './types';
 
-export interface CaseStudySection {
-  id: string;
-  index: string;
-  title: string;
-  paragraphs?: string[];
-  bullets?: string[];
-}
-
-export interface Project {
-  slug: string;
-  title: string;
-  shortTitle: string;
-  category: ProjectCategory;
-  categories: ProjectCategory[];
-  status: string;
-  statusTone: 'amber' | 'green' | 'neutral';
-  summary: string;
-  value: string;
-  stack: string[];
-  diagram: DiagramKind;
-  diagramCaption: string;
-  focus: string;
-  featured: boolean;
-  sections: CaseStudySection[];
-  links: {
-    repo: string | null;
-    live: string | null;
-  };
-  evidenceNote: string;
-}
+/** Timestamp recorded for content that was authored before the CMS existed. */
+export const SEED_TIMESTAMP = '2026-10-19T00:00:00.000Z';
 
 const privateNote =
   'Repository and live-demo links are not public at the time of writing, so none are shown. This case study documents the problem, design, implementation, and tests without claiming production metrics or client outcomes.';
 
 export const projects: Project[] = [
   {
+    id: 'project-financial-research-settlement-agent',
     slug: 'financial-research-settlement-agent',
+    position: 0,
+    image: null,
+    updatedAt: SEED_TIMESTAMP,
+    publishedAt: SEED_TIMESTAMP,
     title: 'Resilient Multi-Step Financial Research & Settlement Agent',
     shortTitle: 'Financial Research & Settlement Agent',
     category: 'Backend',
     categories: ['Backend', 'QA / Automation'],
-    status: 'Case study · code private',
-    statusTone: 'amber',
+    status: 'published',
+    statusLabel: 'Case study · code private',
     summary:
       'An asynchronous, event-driven backend that breaks financial research and settlement into validated, resumable, auditable stages.',
     value:
@@ -192,13 +162,18 @@ export const projects: Project[] = [
     evidenceNote: privateNote,
   },
   {
+    id: 'project-full-stack-learning-platform',
     slug: 'full-stack-learning-platform',
+    position: 1,
+    image: null,
+    updatedAt: SEED_TIMESTAMP,
+    publishedAt: SEED_TIMESTAMP,
     title: 'Full-Stack Learning Platform',
     shortTitle: 'Learning Platform',
     category: 'Full-Stack',
     categories: ['Full-Stack', 'Backend', 'QA / Automation'],
-    status: 'Case study · code private',
-    statusTone: 'amber',
+    status: 'published',
+    statusLabel: 'Case study · code private',
     summary:
       'A role-based learning platform with authentication, course authoring, enrolment, and progress tracking on a relational data model.',
     value:
@@ -338,13 +313,18 @@ export const projects: Project[] = [
     evidenceNote: privateNote,
   },
   {
+    id: 'project-cicd-test-automation-lab',
     slug: 'cicd-test-automation-lab',
+    position: 2,
+    image: null,
+    updatedAt: SEED_TIMESTAMP,
+    publishedAt: SEED_TIMESTAMP,
     title: 'CI/CD & Test Automation Lab',
     shortTitle: 'CI/CD & Test Automation Lab',
     category: 'DevOps',
     categories: ['DevOps', 'QA / Automation'],
-    status: 'Lab · code private',
-    statusTone: 'amber',
+    status: 'published',
+    statusLabel: 'Lab · code private',
     summary:
       'A container-first pipeline lab that builds, tests, scans, and deploys services behind automated quality gates and a smoke-tested rollout.',
     value:
@@ -484,41 +464,3 @@ export const projects: Project[] = [
   },
 ];
 
-export function getProject(slug: string): Project | undefined {
-  return projects.find((project) => project.slug === slug);
-}
-
-export function filterProjects(
-  items: Project[],
-  filter: ProjectFilter,
-  query = '',
-): Project[] {
-  const normalisedQuery = query.trim().toLowerCase();
-  return items.filter((project) => {
-    const matchesFilter = filter === 'All' || project.categories.includes(filter);
-    if (!matchesFilter) return false;
-    if (!normalisedQuery) return true;
-    const haystack = [
-      project.title,
-      project.summary,
-      project.focus,
-      ...project.stack,
-      ...project.categories,
-    ]
-      .join(' ')
-      .toLowerCase();
-    return haystack.includes(normalisedQuery);
-  });
-}
-
-export function adjacentProjects(slug: string): {
-  previous: Project;
-  next: Project;
-} {
-  const index = projects.findIndex((project) => project.slug === slug);
-  const safeIndex = index === -1 ? 0 : index;
-  return {
-    previous: projects[(safeIndex - 1 + projects.length) % projects.length],
-    next: projects[(safeIndex + 1) % projects.length],
-  };
-}

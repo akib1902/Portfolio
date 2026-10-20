@@ -66,7 +66,7 @@
   font-weight: 400;
   line-height: 0.82;
   letter-spacing: -0.025em;
-  text-transform: uppercase;
+  text-transform: var(--display-transform, uppercase);
   white-space: nowrap;
 }
 
@@ -226,8 +226,8 @@
   font-size: clamp(3rem, 5vw, 4.35rem);
   font-weight: 400;
   line-height: 0.84;
-  letter-spacing: -0.02em;
-  text-transform: uppercase;
+  letter-spacing: var(--display-tracking, -0.02em);
+  text-transform: var(--display-transform, uppercase);
   overflow-wrap: break-word;
 }
 
@@ -319,8 +319,8 @@
   border-radius: calc(var(--radius-lg) - 4px);
   background-color: var(--surface-2);
   background-image:
-    linear-gradient(to right, rgba(40, 39, 32, 0.055) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(40, 39, 32, 0.055) 1px, transparent 1px);
+    linear-gradient(to right, color-mix(in srgb, var(--ink) 6%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--ink) 6%, transparent) 1px, transparent 1px);
   background-size: 22px 22px;
 }
 
@@ -612,7 +612,7 @@
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
-  box-shadow: 0 1px 0 rgba(40, 39, 32, 0.02);
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--ink) 3%, transparent);
   transition:
     transform 0.22s var(--ease),
     border-color 0.22s var(--ease),
@@ -778,7 +778,7 @@
   font-size: 1.45rem;
   font-weight: 400;
   line-height: 1;
-  text-transform: uppercase;
+  text-transform: var(--display-transform, uppercase);
 }
 
 .capability__desc {
@@ -841,8 +841,8 @@
   font-size: clamp(2.35rem, 5vw, 4.3rem);
   font-weight: 400;
   line-height: 0.92;
-  letter-spacing: -0.02em;
-  text-transform: uppercase;
+  letter-spacing: var(--display-tracking, -0.02em);
+  text-transform: var(--display-transform, uppercase);
 }
 
 .statement .accent {
@@ -905,8 +905,8 @@
 .cta-band {
   position: relative;
   overflow: hidden;
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--inverse-bg);
+  color: var(--inverse-ink);
 }
 
 .cta-band::before {
@@ -918,8 +918,8 @@
   height: 100%;
   background: repeating-linear-gradient(
     -45deg,
-    rgba(217, 144, 54, 0.13) 0,
-    rgba(217, 144, 54, 0.13) 1px,
+    color-mix(in srgb, var(--amber) 13%, transparent) 0,
+    color-mix(in srgb, var(--amber) 13%, transparent) 1px,
     transparent 1px,
     transparent 16px
   );
@@ -937,7 +937,7 @@
 }
 
 .cta-band__eyebrow {
-  color: #c8c1b2;
+  color: var(--inverse-muted);
 }
 
 .cta-band__eyebrow::before {
@@ -950,9 +950,9 @@
   font-size: clamp(2.5rem, 5.8vw, 5rem);
   font-weight: 400;
   line-height: 0.9;
-  letter-spacing: -0.02em;
-  text-transform: uppercase;
-  color: #f7f2e8;
+  letter-spacing: var(--display-tracking, -0.02em);
+  text-transform: var(--display-transform, uppercase);
+  color: var(--inverse-ink);
 }
 
 .cta-band__title span {
@@ -968,24 +968,24 @@
 .cta-band__note {
   font-size: 0.85rem;
   line-height: 1.6;
-  color: #c8c1b2;
+  color: var(--inverse-muted);
   max-width: 30ch;
 }
 
 .cta-band .btn--secondary {
   background: transparent;
-  border-color: rgba(245, 240, 232, 0.4);
-  color: var(--paper);
+  border-color: var(--inverse-line);
+  color: var(--inverse-ink);
 }
 
 .cta-band .btn--secondary:hover {
-  background: rgba(245, 240, 232, 0.1);
-  border-color: var(--paper);
+  background: color-mix(in srgb, var(--inverse-ink) 12%, transparent);
+  border-color: var(--inverse-ink);
 }
 
 .cta-band :focus-visible,
 .site-footer :focus-visible {
-  outline-color: var(--paper);
+  outline-color: var(--inverse-ink);
   outline-offset: 3px;
 }
 
