@@ -1,0 +1,16 @@
+HTTP/1.1 200 OK
+X-Content-Type-Options: nosniff
+Referrer-Policy: strict-origin-when-cross-origin
+X-Frame-Options: DENY
+Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
+Cross-Origin-Opener-Policy: same-origin
+Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'; frame-ancestors 'none'; img-src 'self' data:; font-src 'self'; style-src 'self'; script-src 'self'; connect-src 'self'
+Cache-Control: no-store
+Set-Cookie: portfolio_admin_session=SdWqqVT6Asp7Lu68zuZz71Dim_rYKmUDKT5XxFe5qOA; Path=/; HttpOnly; SameSite=Strict; Max-Age=28800; Secure
+Content-Type: application/json; charset=utf-8
+Content-Length: 121
+ETag: W/"79-BhUWEIX2XQGZ25ZgPsoIDnspe8A"
+Date: Tue, 20 Oct 2026 03:48:56 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+

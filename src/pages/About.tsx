@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
-import { activeSocialLinks, contactMailto, profile } from '@/content/profile';
-import { skillGroups, toolkitNote } from '@/content/skills';
-import { usePageMeta } from '@/lib/use-page-meta';
+import { activeSocialLinks, contactMailto } from '@/content/profile';
+import { useContent } from '@/lib/content';
 import { ArrowRight, ArrowUpRight, DownloadIcon } from '@/components/icons';
 
 const capabilityCategory: Record<string, string> = {
@@ -35,15 +34,11 @@ const workflow = [
 ];
 
 export default function About() {
-  usePageMeta({
-    title: 'About — Akib Ahmed | Full-Stack, DevOps & QA Engineer',
-    description:
-      'How Akib Ahmed connects full-stack development, DevOps, and QA automation into one reliable delivery path. Engineering principles, technical capabilities, and education.',
-    path: '/about',
-  });
-
-  const socials = activeSocialLinks();
-  const mailto = contactMailto();
+  const content = useContent();
+  const { profile } = content;
+  const skillGroups = content.skills.groups;
+  const socials = activeSocialLinks(profile);
+  const mailto = contactMailto('Project inquiry', profile);
 
   return (
     <div className="page">
@@ -57,9 +52,9 @@ export default function About() {
               Software that <span>earns its keep.</span>
             </h1>
             <p className="page-head__intro">
-              I am Akib Ahmed, a software engineer working across full-stack development, DevOps,
-              and QA automation. I care about the whole path from an idea to a system that can be
-              trusted in production.
+              I am {profile.name}, a {profile.role.toLowerCase()} working across{' '}
+              {profile.disciplines.join(', ')}. I care about the whole path from an idea to a
+              system that can be trusted in production.
             </p>
           </div>
         </div>
@@ -189,7 +184,7 @@ export default function About() {
                 A working toolkit
               </h2>
             </div>
-            <p className="section-intro">{toolkitNote}</p>
+            <p className="section-intro">{content.skills.note}</p>
           </div>
           <div className="capability-grid">
             {skillGroups.map((group) => (
@@ -208,7 +203,11 @@ export default function About() {
                   ))}
                 </ul>
                 <Link
-                  to={`/projects?category=${encodeURIComponent(capabilityCategory[group.id])}`}
+                  to={
+                    capabilityCategory[group.id]
+                      ? `/projects?category=${encodeURIComponent(capabilityCategory[group.id])}`
+                      : '/projects'
+                  }
                   className="link-arrow capability__link"
                 >
                   Related work <ArrowRight size={11} />

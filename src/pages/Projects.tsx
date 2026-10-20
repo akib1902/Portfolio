@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { filterProjects, projectFilters, projects } from '@/content/projects';
-import type { ProjectFilter } from '@/content/projects';
-import { usePageMeta } from '@/lib/use-page-meta';
+import { projectFilters } from '@/content/types';
+import type { ProjectFilter } from '@/content/types';
+import { useContent } from '@/lib/content';
+import { filterProjects } from '@/lib/projects';
 import { ProjectCard } from '@/components/ProjectCard';
 import { ArrowRight, ArrowUpRight } from '@/components/icons';
 
@@ -11,13 +12,7 @@ function isProjectFilter(value: string | null): value is ProjectFilter {
 }
 
 export default function Projects() {
-  usePageMeta({
-    title: 'Projects — Akib Ahmed | Backend, Full-Stack, DevOps & QA',
-    description:
-      'Selected engineering case studies by Akib Ahmed: a financial research and settlement agent, a full-stack learning platform, and a CI/CD and test automation lab.',
-    path: '/projects',
-  });
-
+  const { projects } = useContent();
   const [searchParams, setSearchParams] = useSearchParams();
   const categoryParam = searchParams.get('category');
   const [filter, setFilter] = useState<ProjectFilter>(
@@ -63,12 +58,13 @@ export default function Projects() {
               Selected work, <span>examined.</span>
             </h1>
             <p className="page-head__intro">
-              Three case studies, written to show the reasoning behind the implementation: the
-              constraints, the trade-offs, the tests, and the parts that are still in progress.
+              {projects.length} case studies, written to show the reasoning behind the
+              implementation: the constraints, the trade-offs, the tests, and the parts that are
+              still in progress.
             </p>
           </div>
           <div className="page-head__meta">
-            <span className="badge">3 case studies</span>
+            <span className="badge">{projects.length} case studies</span>
             <span className="badge">Backend · Full-stack · DevOps · QA</span>
             <span className="badge badge--amber">Repositories private</span>
           </div>

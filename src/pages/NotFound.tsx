@@ -1,15 +1,7 @@
 import { Link } from 'react-router-dom';
-import { usePageMeta } from '@/lib/use-page-meta';
 import { ArrowRight, ArrowUpRight } from '@/components/icons';
 
 export default function NotFound() {
-  usePageMeta({
-    title: 'Page not found — Akib Ahmed',
-    description: 'The page you requested does not exist. Return to the portfolio home or browse the project case studies.',
-    path: '/404',
-    noindex: true,
-  });
-
   return (
     <div className="page">
       <div className="container not-found">

@@ -1,23 +1,10 @@
 import { Link } from 'react-router-dom';
-import { activeSocialLinks, contactMailto, profile } from '@/content/profile';
-import { projects } from '@/content/projects';
-import { skillGroups, toolkitNote } from '@/content/skills';
-import { usePageMeta } from '@/lib/use-page-meta';
+import { activeSocialLinks, contactMailto } from '@/content/profile';
+import { useContent } from '@/lib/content';
 import { ArrowRight, ArrowUpRight, DownloadIcon } from '@/components/icons';
 import { PortraitPlate } from '@/components/PortraitPlate';
 import { ProjectCard } from '@/components/ProjectCard';
 import { ProjectDiagram } from '@/components/Diagrams';
-
-const heroSkills = [
-  'TypeScript',
-  'React',
-  'Node.js',
-  'Python',
-  'Docker',
-  'GitHub Actions',
-  'PostgreSQL',
-  'Linux',
-];
 
 const disciplineLinks = [
   {
@@ -45,15 +32,14 @@ const disciplineCategory: Record<string, string> = {
 };
 
 export default function Home() {
-  usePageMeta({
-    title: 'Akib Ahmed — Software Engineer | Full-Stack, DevOps & QA',
-    description:
-      'Akib Ahmed builds full-stack applications, automates delivery pipelines, and tests software for reliability. Explore selected work across full-stack, DevOps, and QA automation.',
-    path: '/',
-  });
+  const content = useContent();
+  const { profile, projects } = content;
+  const skillGroups = content.skills.groups;
+  const [firstName, ...restOfName] = profile.name.split(' ');
+  const heroSkills = skillGroups.flatMap((group) => group.highlighted).slice(0, 8);
 
-  const socials = activeSocialLinks();
-  const mailto = contactMailto();
+  const socials = activeSocialLinks(profile);
+  const mailto = contactMailto('Project inquiry', profile);
   const featured = projects.filter((project) => project.featured).slice(0, 3);
 
   return (
@@ -62,7 +48,7 @@ export default function Home() {
         <div className="container">
           <div className="hero__topline">
             <div className="hero__disciplines">
-              <span>Software engineer</span>
+              <span>{profile.role}</span>
               {profile.disciplines.map((discipline) => (
                 <span key={discipline}>{discipline}</span>
               ))}
@@ -78,7 +64,7 @@ export default function Home() {
             </p>
           </div>
 
-          <h1 className="hero__display" id="hero-title" aria-label="Akib Ahmed — build, test, deploy.">
+          <h1 className="hero__display" id="hero-title" aria-label={`${profile.name} — build, test, deploy.`}>
             <span className="hero__display-word">Build.</span>
             <span className="hero__display-word">Test.</span>
             <span className="hero__display-word hero__display-word--accent">Deploy.</span>
@@ -108,7 +94,7 @@ export default function Home() {
                       </span>
                       <span>
                         <span className="fact-list__label">Education</span>
-                        <span className="fact-list__value">CSE graduate</span>
+                        <span className="fact-list__value">{profile.education.field}</span>
                       </span>
                     </li>
                     <li>
@@ -167,7 +153,8 @@ export default function Home() {
                   <div>
                     <p className="hero-card__greeting">Hey there, I&apos;m</p>
                     <h2 className="hero-card__name" id="hero-name">
-                      Akib <span className="hero-card__name-accent">Ahmed</span>
+                      {firstName}{' '}
+                      <span className="hero-card__name-accent">{restOfName.join(' ')}</span>
                     </h2>
                     <p className="hero-card__role">
                       {profile.disciplines.map((discipline) => (
@@ -232,11 +219,11 @@ export default function Home() {
                       </div>
                       <div>
                         <dt className="hero-fact__label">Work mode</dt>
-                        <dd className="hero-fact__value">Remote-friendly</dd>
+                        <dd className="hero-fact__value">{profile.workPreference}</dd>
                       </div>
                       <div>
                         <dt className="hero-fact__label">Education</dt>
-                        <dd className="hero-fact__value">CSE graduate</dd>
+                        <dd className="hero-fact__value">{profile.education.field}</dd>
                       </div>
                     </dl>
                   </div>
@@ -361,9 +348,9 @@ export default function Home() {
             </div>
             <div className="section-intro">
               <p>
-                Three case studies across backend architecture, full-stack product work, and
-                delivery automation. Each one documents the problem, the design decisions, and the
-                tests — not just the finished screens.
+                {projects.length} case studies across backend architecture, full-stack product
+                work, and delivery automation. Each one documents the problem, the design
+                decisions, and the tests — not just the finished screens.
               </p>
               <p>
                 <Link to="/projects" className="text-link text-link--accent">
@@ -416,7 +403,11 @@ export default function Home() {
                   ))}
                 </ul>
                 <Link
-                  to={`/projects?category=${encodeURIComponent(disciplineCategory[group.id])}`}
+                  to={
+                    disciplineCategory[group.id]
+                      ? `/projects?category=${encodeURIComponent(disciplineCategory[group.id])}`
+                      : '/projects'
+                  }
                   className="link-arrow capability__link"
                 >
                   Related work <ArrowRight size={11} />
@@ -424,7 +415,7 @@ export default function Home() {
               </article>
             ))}
           </div>
-          <p className="toolkit-note">{toolkitNote}</p>
+          <p className="toolkit-note">{content.skills.note}</p>
         </div>
       </section>
 

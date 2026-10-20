@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { adjacentProjects, filterProjects, getProject, projects } from './projects';
+import { adjacentProjects, filterProjects, getProject } from '@/lib/projects';
+import { projects } from './projects';
 
 describe('project content', () => {
   it('has unique slugs and complete case studies', () => {
@@ -24,6 +25,12 @@ describe('project content', () => {
       for (const link of [project.links.repo, project.links.live]) {
         if (link !== null) expect(link).toMatch(/^https:\/\//);
       }
+    }
+  });
+
+  it('ships every seed project as published', () => {
+    for (const project of projects) {
+      expect(project.status).toBe('published');
     }
   });
 });
@@ -61,16 +68,20 @@ describe('filterProjects', () => {
 
 describe('getProject and adjacentProjects', () => {
   it('finds a project by slug', () => {
-    expect(getProject('cicd-test-automation-lab')?.category).toBe('DevOps');
-    expect(getProject('unknown')).toBeUndefined();
+    expect(getProject(projects, 'cicd-test-automation-lab')?.category).toBe('DevOps');
+    expect(getProject(projects, 'unknown')).toBeUndefined();
   });
 
   it('wraps around at both ends', () => {
-    const first = adjacentProjects(projects[0].slug);
-    expect(first.previous.slug).toBe(projects[projects.length - 1].slug);
-    expect(first.next.slug).toBe(projects[1].slug);
+    const first = adjacentProjects(projects, projects[0].slug);
+    expect(first?.previous.slug).toBe(projects[projects.length - 1].slug);
+    expect(first?.next.slug).toBe(projects[1].slug);
 
-    const last = adjacentProjects(projects[projects.length - 1].slug);
-    expect(last.next.slug).toBe(projects[0].slug);
+    const last = adjacentProjects(projects, projects[projects.length - 1].slug);
+    expect(last?.next.slug).toBe(projects[0].slug);
+  });
+
+  it('returns null when there is nothing to navigate to', () => {
+    expect(adjacentProjects([], 'anything')).toBeNull();
   });
 });

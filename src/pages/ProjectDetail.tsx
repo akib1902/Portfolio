@@ -1,26 +1,21 @@
 import { Link, useParams } from 'react-router-dom';
-import { adjacentProjects, getProject } from '@/content/projects';
-import { usePageMeta } from '@/lib/use-page-meta';
+import { useContent } from '@/lib/content';
+import { adjacentProjects, getProject, relatedProjects } from '@/lib/projects';
 import { ProjectDiagram } from '@/components/Diagrams';
 import { ArrowLeft, ArrowRight, ArrowUpRight } from '@/components/icons';
 import NotFound from './NotFound';
 
 export default function ProjectDetail() {
+  const content = useContent();
   const { slug = '' } = useParams();
-  const project = getProject(slug);
+  const project = getProject(content.projects, slug);
 
   if (!project) {
     return <NotFound />;
   }
 
-  usePageMeta({
-    title: `${project.shortTitle} — Case study | Akib Ahmed`,
-    description: project.summary,
-    path: `/projects/${project.slug}`,
-    type: 'article',
-  });
-
-  const { previous, next } = adjacentProjects(project.slug);
+  const adjacent = adjacentProjects(content.projects, project.slug);
+  const related = relatedProjects(content.projects, project, 3);
 
   return (
     <div className="page">
@@ -97,6 +92,19 @@ export default function ProjectDetail() {
       </header>
 
       <div className="container">
+        {project.image ? (
+          <figure className="project-image">
+            <img
+              src={project.image}
+              alt={`${project.shortTitle} project preview`}
+              width={1200}
+              height={630}
+              loading="lazy"
+              decoding="async"
+            />
+          </figure>
+        ) : null}
+
         <figure className="detail-diagram">
           <div className="detail-diagram__head">
             <span>Architecture · system view</span>
@@ -188,20 +196,41 @@ export default function ProjectDetail() {
           </article>
         </div>
 
-        <nav className="project-nav" aria-label="Adjacent projects">
-          <Link to={`/projects/${previous.slug}`}>
-            <span className="project-nav__direction">
-              <ArrowLeft size={12} /> Previous
-            </span>
-            <span className="project-nav__title">{previous.shortTitle}</span>
-          </Link>
-          <Link to={`/projects/${next.slug}`}>
-            <span className="project-nav__direction">
-              Next <ArrowRight size={12} />
-            </span>
-            <span className="project-nav__title">{next.shortTitle}</span>
-          </Link>
-        </nav>
+        {related.length > 0 ? (
+          <aside className="related-work" aria-labelledby="related-title">
+            <h2 className="related-work__title" id="related-title">
+              Related case studies
+            </h2>
+            <ul className="related-work__list">
+              {related.map((item) => (
+                <li key={item.slug}>
+                  <Link to={`/projects/${item.slug}`}>
+                    <span className="related-work__category">{item.category}</span>
+                    <span className="related-work__name">{item.shortTitle}</span>
+                    <ArrowRight size={13} />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </aside>
+        ) : null}
+
+        {adjacent ? (
+          <nav className="project-nav" aria-label="Adjacent projects">
+            <Link to={`/projects/${adjacent.previous.slug}`}>
+              <span className="project-nav__direction">
+                <ArrowLeft size={12} /> Previous
+              </span>
+              <span className="project-nav__title">{adjacent.previous.shortTitle}</span>
+            </Link>
+            <Link to={`/projects/${adjacent.next.slug}`}>
+              <span className="project-nav__direction">
+                Next <ArrowRight size={12} />
+              </span>
+              <span className="project-nav__title">{adjacent.next.shortTitle}</span>
+            </Link>
+          </nav>
+        ) : null}
       </div>
 
       <section className="cta-band" aria-labelledby="project-cta-title">

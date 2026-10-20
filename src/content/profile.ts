@@ -1,5 +1,5 @@
 /**
- * Single source of truth for the public profile.
+ * Seed profile used to initialise the content store.
  *
  * CONTENT POLICY
  * Only factual, supplied details belong here. Do not add years of experience,
@@ -7,24 +7,19 @@
  *
  * CONTACT DETAILS
  * Email and social URLs are intentionally left empty rather than guessed.
- * Fill them in and the UI links, footer icons, mailto fallback, and structured
- * data appear automatically. See README.md → "Connect your details".
+ * Once the administrator fills them in through /admin/profile, the UI links,
+ * footer icons, mailto fallback, and structured data appear automatically.
  */
 
-export type SocialKey = 'github' | 'linkedin' | 'upwork';
+import type { Profile, SocialKey, SocialLink } from './types';
 
-export interface SocialLink {
-  key: SocialKey;
-  label: string;
-  href: string;
-}
-
-export const profile = {
+export const profile: Profile = {
   name: 'Akib Ahmed',
   firstName: 'Akib',
   initials: 'AA',
   role: 'Software Engineer',
-  disciplines: ['Full-Stack Development', 'DevOps', 'QA Automation'] as const,
+  headline: 'Software engineer building, testing, and deploying reliable systems',
+  disciplines: ['Full-Stack Development', 'DevOps', 'QA Automation'],
   positioning: 'Software Engineer · Full-Stack Development · DevOps · QA Automation',
   intro:
     'I build full-stack applications, automate delivery pipelines, and test software for reliability. I focus on turning ideas into maintainable, production-ready systems.',
@@ -44,16 +39,18 @@ export const profile = {
     note: 'Institution and academic records available on request.',
   },
   /** Set to a public address to enable the email fallback and mailto links. */
-  email: null as string | null,
-  /** Replace `null` with the full URL once each profile exists. */
+  email: null,
+  /** Set each to a full URL once the profile exists. */
   links: {
-    github: null as string | null,
-    linkedin: null as string | null,
-    upwork: null as string | null,
+    github: null,
+    linkedin: null,
+    upwork: null,
   },
-  /** Optional real portrait, e.g. '/portrait.jpg'. Falls back to a typographic plate. */
-  portrait: null as string | null,
+  /** Optional real portrait, e.g. '/media/portrait-....jpg'. Falls back to a typographic plate. */
+  portrait: null,
   portraitAlt: 'Portrait of Akib Ahmed',
+  /** Optional page-specific social image. Falls back to /og.png. */
+  shareImage: null,
   resume: {
     href: '/resume',
     pdf: '/akib-ahmed-resume.pdf',
@@ -76,7 +73,7 @@ export const profile = {
       body: 'A deploy should be repeatable, gated by evidence, and reversible. If a step only works because someone remembers it, it is a risk.',
     },
   ],
-} as const;
+};
 
 export const socialLabels: Record<SocialKey, string> = {
   github: 'GitHub',
@@ -85,13 +82,13 @@ export const socialLabels: Record<SocialKey, string> = {
 };
 
 /** Returns only links that have actually been configured. */
-export function activeSocialLinks(): SocialLink[] {
-  return (Object.keys(profile.links) as SocialKey[])
-    .filter((key) => Boolean(profile.links[key]))
-    .map((key) => ({ key, label: socialLabels[key], href: profile.links[key] as string }));
+export function activeSocialLinks(source: Profile = profile): SocialLink[] {
+  return (Object.keys(source.links) as SocialKey[])
+    .filter((key) => Boolean(source.links[key]))
+    .map((key) => ({ key, label: socialLabels[key], href: source.links[key] as string }));
 }
 
-export function contactMailto(subject = 'Project inquiry'): string | null {
-  if (!profile.email) return null;
-  return `mailto:${profile.email}?subject=${encodeURIComponent(subject)}`;
+export function contactMailto(subject: string, source: Profile = profile): string | null {
+  if (!source.email) return null;
+  return `mailto:${source.email}?subject=${encodeURIComponent(subject)}`;
 }

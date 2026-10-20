@@ -1,20 +1,14 @@
 import { Link } from 'react-router-dom';
-import { activeSocialLinks, contactMailto, profile } from '@/content/profile';
-import { projects } from '@/content/projects';
-import { skillGroups } from '@/content/skills';
-import { usePageMeta } from '@/lib/use-page-meta';
+import { activeSocialLinks, contactMailto } from '@/content/profile';
+import { useContent } from '@/lib/content';
 import { ArrowLeft, DownloadIcon, PrintIcon } from '@/components/icons';
 
 export default function Resume() {
-  usePageMeta({
-    title: 'Resume — Akib Ahmed | Software Engineer',
-    description:
-      'Print-ready resume for Akib Ahmed, a software engineer focused on full-stack development, DevOps, and QA automation.',
-    path: '/resume',
-  });
-
-  const socials = activeSocialLinks();
-  const mailto = contactMailto('Hello from your resume');
+  const content = useContent();
+  const { profile, projects } = content;
+  const skillGroups = content.skills.groups;
+  const socials = activeSocialLinks(profile);
+  const mailto = contactMailto('Hello from your resume', profile);
 
   return (
     <div className="page">
@@ -43,8 +37,7 @@ export default function Resume() {
             </button>
             <a
               href={profile.resume.pdf}
-              className="btn btn--primary btn--small"
-              download="Akib-Ahmed-Resume.pdf"
+              className="btn btn--primary btn--small"                download={`${profile.name.replace(/\s+/g, '-')}-Resume.pdf`}
             >
               <DownloadIcon size={14} />
               Download PDF
@@ -58,11 +51,9 @@ export default function Resume() {
           <header className="resume-head">
             <div>
               <h1 className="resume-head__name" id="resume-name">
-                Akib Ahmed
+                {profile.name}
               </h1>
-              <p className="resume-head__role">
-                Software Engineer · Full-Stack · DevOps · QA Automation
-              </p>
+              <p className="resume-head__role">{profile.positioning}</p>
             </div>
             <div className="resume-head__meta">
               <span>

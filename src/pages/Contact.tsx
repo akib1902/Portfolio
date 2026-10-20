@@ -1,19 +1,13 @@
 import { Link } from 'react-router-dom';
-import { activeSocialLinks, contactMailto, profile } from '@/content/profile';
-import { usePageMeta } from '@/lib/use-page-meta';
+import { activeSocialLinks, contactMailto } from '@/content/profile';
+import { useProfile } from '@/lib/content';
 import { ContactForm } from '@/components/ContactForm';
 import { ArrowUpRight, MailIcon } from '@/components/icons';
 
 export default function Contact() {
-  usePageMeta({
-    title: 'Contact — Akib Ahmed | Full-Stack, DevOps & QA Engineer',
-    description:
-      'Get in touch with Akib Ahmed about a project, a full-time or contract role, or a technical collaboration. A working contact form with a direct email option when configured.',
-    path: '/contact',
-  });
-
-  const socials = activeSocialLinks();
-  const mailto = contactMailto('Project inquiry from your portfolio');
+  const profile = useProfile();
+  const socials = activeSocialLinks(profile);
+  const mailto = contactMailto('Project inquiry from your portfolio', profile);
 
   return (
     <div className="page">

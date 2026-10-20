@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
-import { activeSocialLinks, contactMailto, profile } from '@/content/profile';
+import { activeSocialLinks, contactMailto } from '@/content/profile';
+import { useProfile } from '@/lib/content';
 import { CloseIcon, MenuIcon } from './icons';
+import { ThemeSwitcher } from './ThemeSwitcher';
 
 const navItems = [
   { to: '/', label: 'Home', end: true },
@@ -38,6 +40,8 @@ function Header() {
   const [open, setOpen] = useState(false);
   const toggleRef = useRef<HTMLButtonElement>(null);
   const location = useLocation();
+  const profile = useProfile();
+  const [firstName, ...restOfName] = profile.name.split(' ');
 
   useEffect(() => {
     setOpen(false);
@@ -59,8 +63,8 @@ function Header() {
     <header className="site-header">
       <div className="container site-header__inner">
         <Link to="/" className="brand">
-          <span>Akib</span>
-          <span className="brand__last">Ahmed</span>
+          <span>{firstName}</span>
+          <span className="brand__last">{restOfName.join(' ')}</span>
         </Link>
 
         <nav className="site-nav" aria-label="Primary">
@@ -77,6 +81,7 @@ function Header() {
         </nav>
 
         <div className="header-actions">
+          <ThemeSwitcher />
           <Link to="/contact" className="btn btn--primary btn--small">
             Hire me
           </Link>
@@ -110,6 +115,7 @@ function Header() {
               <Link to="/resume" className="link-arrow">
                 Resume
               </Link>
+              <ThemeSwitcher variant="mobile" />
             </div>
           </nav>
         </div>
@@ -119,9 +125,11 @@ function Header() {
 }
 
 function Footer() {
-  const socials = activeSocialLinks();
-  const mailto = contactMailto();
+  const profile = useProfile();
+  const socials = activeSocialLinks(profile);
+  const mailto = contactMailto('Project inquiry', profile);
   const year = new Date().getFullYear();
+  const [firstName, ...restOfName] = profile.name.split(' ');
 
   return (
     <footer className="site-footer">
@@ -129,12 +137,9 @@ function Footer() {
         <div className="site-footer__grid">
           <div>
             <p className="footer-brand">
-              Akib <span>Ahmed</span>
+              {firstName} <span>{restOfName.join(' ')}</span>
             </p>
-            <p className="footer-note">
-              Software engineer working across full-stack development, DevOps, and quality
-              assurance. I build, test, and deploy software that holds up.
-            </p>
+            <p className="footer-note">{profile.intro}</p>
             {socials.length > 0 || mailto ? (
               <div className="footer-social">
                 {socials.map((social) => (
@@ -191,7 +196,7 @@ function Footer() {
         </div>
 
         <div className="site-footer__bottom">
-          <span>© {year} Akib Ahmed</span>
+          <span>© {year} {profile.name}</span>
           <span>Built with React, TypeScript &amp; Express</span>
           <a href="#main">Back to top</a>
         </div>
