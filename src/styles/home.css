@@ -59,7 +59,8 @@
   flex-wrap: nowrap;
   justify-content: space-between;
   gap: 0.12em;
-  margin: clamp(0.8rem, 1.8vw, 1.4rem) 0 clamp(-2.5rem, -2.2vw, -1.2rem);
+  /* The display type reads in full above the panels; the panels never crop it. */
+  margin: clamp(0.8rem, 1.8vw, 1.4rem) 0 clamp(0.7rem, 1.4vw, 1.2rem);
   font-family: var(--font-display);
   font-size: clamp(3rem, 10.4vw, 9.7rem);
   font-weight: 400;
@@ -1167,6 +1168,23 @@
 
   .hero__topline {
     padding-bottom: 0.7rem;
+  }
+
+  /* One discipline per line so a separator never dangles at a wrap. */
+  .hero__disciplines {
+    flex-direction: column;
+    gap: 0.1rem;
+  }
+
+  .hero__disciplines span:not(:last-child)::after {
+    display: none;
+  }
+
+  .hero__disciplines span::before {
+    content: '';
+    width: 3px;
+    height: 3px;
+    background: var(--amber);
   }
 
   .hero-facts {

@@ -521,6 +521,14 @@ hr {
   margin-top: 0.5rem;
 }
 
+.mobile-nav__footer .link-arrow {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding-inline: 0.15rem;
+  font-size: 0.85rem;
+}
+
 .mobile-nav__note {
   font-family: var(--font-mono);
   font-size: 0.66rem;
