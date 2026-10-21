@@ -9,3 +9,4 @@ npm-debug.log*
 coverage/
 .chrome-tmp*/
 .tmp-verify/
+qa-env/

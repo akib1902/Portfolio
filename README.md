@@ -32,6 +32,7 @@ Browser ──► Express
 - `/api` and `/admin` responses are never part of the public sitemap. Admin HTML is an empty application shell; the CMS fetches its data only after session validation.
 - Draft projects never leave the admin layer. They are absent from `/api/content`, public HTML, metadata, and `sitemap.xml`.
 - The visitor's theme is applied by `/theme-init.js` before first paint. The administrator's default theme is rendered on `<html data-theme>` by the server.
+- `public/boot.css` is linked first in `<head>` and paints the correct theme canvas (background + `color-scheme`) on the very first frame, so a cold cache never flashes white in front of the dark Graphite Terminal theme. The Vite config injects `<link rel="preload">` tags for the three above-the-fold fonts (Inter, Anton, JetBrains Mono latin subsets) at build time, because the hashed filenames cannot be hardcoded; fonts then download in parallel with the stylesheet instead of after it, eliminating the fallback-font flash on the hero.
 
 ## Routes
 
@@ -239,7 +240,14 @@ npm run typecheck
 npm test
 npm run build
 npm run check   # typecheck + tests + build
+npm run qa      # 282 browser/API assertions against a running server (see below)
 ```
+
+`npm run qa` runs the six suites in `qa/` (theme/FOUC, functional routing, admin CMS,
+SEO/HTTP, axe accessibility, responsive/performance) with Playwright against a server
+you point them at via `QA_BASE_URL` (default `http://127.0.0.1:3100`). Start an
+isolated-instance server first — see [docs/qa-report.md](docs/qa-report.md) §K for the
+exact commands — so tests never touch real data.
 
 The suite covers contact validation and field-error mapping, rate-limit windows, HTML escaping in email, project filters/search/adjacency, content integrity, canonical-origin fail-safety, SEO metadata/JSON-LD, document rendering (including the single `data-theme` attribute), and HTTP-level security: unauthenticated access to every admin endpoint, login rate limiting, session forgery/expiry/logout, CSRF and Origin rejection, malformed and role-escalation payloads, draft isolation, publish/unpublish/slug redirects, sitemap contents, public rendering after edits, and image/PDF upload validation.
 
