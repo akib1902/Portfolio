@@ -24,7 +24,7 @@ body {
   --muted: #6e6a60;
   --muted-strong: #565248;
   --amber: #d99036;
-  --amber-hover: #b97522;
+  --amber-hover: #e0a14f;
   --amber-strong: #8a5714;
   --amber-wash: #f3e4cd;
   --on-accent: var(--ink);
@@ -108,6 +108,14 @@ body {
   box-shadow: 0 0 12px var(--amber);
 }
 
+/* Monospace display type is wider than the condensed default. Keep the full
+   build/test/deploy line inside the container instead of letting it scroll. */
+@media (min-width: 761px) {
+  [data-theme='graphite-terminal'] .hero__display {
+    font-size: clamp(2.2rem, 7.4vw, 6.8rem);
+  }
+}
+
 [data-theme='graphite-terminal'] .section-index::after {
   content: '';
 }
@@ -172,6 +180,13 @@ body {
   letter-spacing: 0.01em;
 }
 
+/* Inter is wider than the condensed display face; keep the strict grid. */
+@media (min-width: 761px) {
+  [data-theme='swiss-editorial'] .hero__display {
+    font-size: clamp(2.8rem, 9.4vw, 8.9rem);
+  }
+}
+
 /* ── 4. Warm Bento ────────────────────────────────────────────────────────── */
 
 [data-theme='warm-bento'] {
@@ -185,10 +200,11 @@ body {
   --muted: #6f655c;
   --muted-strong: #524941;
   --amber: #cf7a3f;
-  --amber-hover: #b9612a;
+  --amber-hover: #df8d52;
   --amber-strong: #8d421a;
   --amber-wash: #f9e2cc;
-  --on-accent: #fffaf4;
+  /* Dark text on the orange accent; white falls below AA for button labels. */
+  --on-accent: #2b2520;
   --line: #e5d6c6;
   --line-strong: #d3bfab;
   --success: #44684c;
@@ -236,10 +252,10 @@ body {
   --surface-3: #ddcbb2;
   --ink: #22352b;
   --ink-soft: #33473c;
-  --muted: #5e6b5e;
+  --muted: #5b685c;
   --muted-strong: #48594c;
-  --amber: #a67c3a;
-  --amber-hover: #8a6227;
+  --amber: #8a6128;
+  --amber-hover: #75501e;
   --amber-strong: #6f4f1c;
   --amber-wash: #efe2c8;
   --on-accent: #f9f3e6;

@@ -144,6 +144,14 @@ export async function uploadImage(kind: 'portrait' | 'share' | 'project', file: 
   return result.media;
 }
 
+export async function uploadDocument(file: File): Promise<MediaResult> {
+  const body = new FormData();
+  body.append('kind', 'resume');
+  body.append('file', file);
+  const result = await request<{ media: MediaResult }>('/media', { method: 'POST', body });
+  return result.media;
+}
+
 export async function deleteMedia(filename: string): Promise<void> {
   await request<{ ok: true }>(`/media/${encodeURIComponent(filename)}`, { method: 'DELETE' });
 }

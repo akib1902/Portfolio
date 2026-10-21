@@ -305,8 +305,8 @@ hr {
 }
 
 .btn--primary:hover {
-  background: var(--amber-strong);
-  border-color: var(--amber-strong);
+  background: var(--amber-hover);
+  border-color: var(--amber-hover);
   color: var(--on-accent);
 }
 
@@ -428,7 +428,7 @@ hr {
 }
 
 .brand:hover .brand__last {
-  color: var(--amber-hover);
+  color: var(--amber-strong);
 }
 
 .site-nav {

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
-import { deleteMedia, uploadImage } from './api';
+import { deleteMedia, uploadDocument, uploadImage } from './api';
 
 export function AdminField({
   label,
@@ -301,6 +301,126 @@ export function ImageUpload({
           {busy ? 'Uploading…' : 'Upload image'}
         </button>
         {value ? (
+          <button
+            type="button"
+            className="btn btn--secondary btn--small"
+            onClick={() => void removeStored()}
+            disabled={busy}
+          >
+            Remove
+          </button>
+        ) : null}
+      </div>
+
+      {status ? (
+        <span className={`admin-status admin-status--${status.tone}`} role="status">
+          {status.message}
+        </span>
+      ) : null}
+    </div>
+  );
+}
+
+export function FileUpload({
+  label,
+  value,
+  onChange,
+  hint,
+}: {
+  label: string;
+  value: string | null;
+  onChange: (value: string | null) => void;
+  hint?: string;
+}) {
+  const [file, setFile] = useState<File | null>(null);
+  const [status, setStatus] = useState<{ tone: 'ok' | 'error'; message: string } | null>(null);
+  const [busy, setBusy] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  function chooseFile(next: File | null) {
+    setStatus(null);
+    setFile(null);
+    if (!next) return;
+    if (next.type !== 'application/pdf') {
+      setStatus({ tone: 'error', message: 'Choose a PDF document.' });
+      return;
+    }
+    if (next.size > 5 * 1024 * 1024) {
+      setStatus({ tone: 'error', message: 'PDFs must be 5 MB or smaller.' });
+      return;
+    }
+    setFile(next);
+  }
+
+  async function upload() {
+    if (!file) return;
+    setBusy(true);
+    setStatus(null);
+    try {
+      const media = await uploadDocument(file);
+      onChange(media.url);
+      setStatus({ tone: 'ok', message: 'Uploaded. Save the form to publish it.' });
+      setFile(null);
+      if (inputRef.current) inputRef.current.value = '';
+    } catch (error) {
+      setStatus({
+        tone: 'error',
+        message: error instanceof Error ? error.message : 'The upload failed.',
+      });
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function removeStored() {
+    if (value?.startsWith('/media/')) {
+      setBusy(true);
+      try {
+        await deleteMedia(value.slice('/media/'.length));
+      } catch {
+        /* Removing the reference still works if the file is already gone. */
+      } finally {
+        setBusy(false);
+      }
+    }
+    onChange(null);
+    setStatus({ tone: 'ok', message: 'PDF removed from this form. Save to apply.' });
+    if (inputRef.current) inputRef.current.value = '';
+  }
+
+  return (
+    <div className="admin-field admin-media">
+      <span className="admin-field__label">{label}</span>
+      {hint ? <span className="admin-field__hint">{hint}</span> : null}
+
+      <div className="admin-media__preview admin-media__preview--document">
+        {value ? (
+          <a href={value} target="_blank" rel="noreferrer">
+            Open current PDF ↗
+          </a>
+        ) : (
+          <span className="admin-media__empty">No PDF selected</span>
+        )}
+      </div>
+
+      <input
+        ref={inputRef}
+        className="admin-input admin-input--file"
+        type="file"
+        accept="application/pdf"
+        onChange={(event) => chooseFile(event.target.files?.[0] ?? null)}
+      />
+
+      <div className="admin-savebar__actions">
+        <button
+          type="button"
+          className="btn btn--secondary btn--small"
+          onClick={() => void upload()}
+          disabled={!file || busy}
+        >
+          {busy ? 'Uploading…' : 'Upload PDF'}
+        </button>
+        {value?.startsWith('/media/') ? (
           <button
             type="button"
             className="btn btn--secondary btn--small"

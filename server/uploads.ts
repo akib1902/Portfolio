@@ -43,7 +43,7 @@ export function detectImage(buffer: Buffer): DetectedImage | null {
 const allowedMimeTypes = new Set(['image/jpeg', 'image/png', 'image/webp']);
 const allowedKinds = new Set(['portrait', 'share', 'project']);
 
-export type UploadKind = 'portrait' | 'share' | 'project';
+export type UploadKind = 'portrait' | 'share' | 'project' | 'resume';
 
 export interface SavedUpload {
   url: string;
@@ -107,10 +107,47 @@ export async function saveImage(
   };
 }
 
-const mediaNamePattern = /^(portrait|share|project)-[0-9a-f-]{36}\.(jpg|png|webp)$/;
+/**
+ * Stores a resume PDF. The signature is checked so a renamed executable or
+ * HTML file cannot be published as a document.
+ */
+export async function saveDocument(
+  directory: string,
+  kind: string,
+  file: { buffer: Buffer; mimetype: string; originalname: string; size: number } | undefined,
+): Promise<SavedUpload> {
+  if (!file) throw new UploadError('Choose a PDF file to upload.');
+  if (kind !== 'resume') throw new UploadError('Unknown upload type.');
+  if (file.size === 0) throw new UploadError('The uploaded file is empty.');
+  if (file.size > MAX_UPLOAD_BYTES) {
+    throw new UploadError('Files must be 5 MB or smaller.', 413);
+  }
+  if (file.mimetype.toLowerCase() !== 'application/pdf') {
+    throw new UploadError('Only PDF documents are accepted.');
+  }
+  if (file.buffer.length < 5 || file.buffer.toString('ascii', 0, 5) !== '%PDF-') {
+    throw new UploadError('The file is not a valid PDF document.');
+  }
+  if (path.extname(file.originalname).toLowerCase() !== '.pdf') {
+    throw new UploadError('The file extension must be .pdf.');
+  }
 
-/** Deletes a published image. Unknown or traversing names are rejected. */
-export async function deleteImage(directory: string, filename: string): Promise<boolean> {
+  await mkdir(directory, { recursive: true });
+  const filename = `resume-${randomUUID()}.pdf`;
+  await writeFile(path.join(directory, filename), file.buffer, { mode: 0o644 });
+
+  return {
+    url: `/media/${filename}`,
+    filename,
+    contentType: 'application/pdf',
+    bytes: file.size,
+  };
+}
+
+const mediaNamePattern = /^(portrait|share|project|resume)-[0-9a-f-]{36}\.(jpg|png|webp|pdf)$/;
+
+/** Deletes a published media file. Unknown or traversing names are rejected. */
+export async function deleteMedia(directory: string, filename: string): Promise<boolean> {
   if (!mediaNamePattern.test(filename)) {
     throw new UploadError('Unknown media file.');
   }

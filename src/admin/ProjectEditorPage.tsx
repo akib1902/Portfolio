@@ -172,7 +172,7 @@ export default function ProjectEditorPage() {
 
       {showPreview ? (
         <section className="admin-preview" aria-label="Project preview">
-          <p className="admin-eyebrow">Draft preview</p>
+          <p className="admin-eyebrow">Project preview</p>
           <h2 className="admin-preview__title">{form.title || 'Untitled project'}</h2>
           <p className="admin-preview__summary">{form.summary || 'No summary yet.'}</p>
           <p className="admin-preview__meta">

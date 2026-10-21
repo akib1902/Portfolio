@@ -133,8 +133,8 @@ export default function SettingsPage() {
             <code>DATABASE_PATH</code> — optional override for the SQLite file.
           </li>
           <li>
-            <code>UPLOAD_DIR</code> — persistent disk for uploaded images (served at
-            <code>/media</code>).
+            <code>UPLOAD_DIR</code> — persistent disk for uploaded images and resume PDFs (served
+            at <code>/media</code>).
           </li>
           <li>
             <code>SESSION_TTL_HOURS</code> — administrator session lifetime, 1–72 hours (default
