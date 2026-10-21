@@ -941,7 +941,7 @@
 }
 
 .cta-band__eyebrow::before {
-  background: var(--amber);
+  background: var(--inverse-accent);
 }
 
 .cta-band__title {
@@ -956,7 +956,7 @@
 }
 
 .cta-band__title span {
-  color: var(--amber);
+  color: var(--inverse-accent);
 }
 
 .cta-band__aside {

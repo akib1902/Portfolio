@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <!-- boot.css paints the correct theme canvas on the first frame; it must
+         stay ahead of every other resource in this head. -->
+    <link rel="stylesheet" href="/boot.css" />
     <script src="/theme-init.js"></script>
   </head>
   <body>

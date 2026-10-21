@@ -34,6 +34,10 @@
 
   --on-accent: var(--ink);
   --inverse-bg: #23221c;
+  /* Accent colour used on inverse (dark) surfaces. --amber itself can be
+     near-black in light monochrome themes (Swiss Editorial), where it would be
+     invisible on the footer/CTA panels, so inverse surfaces read this token. */
+  --inverse-accent: #d99036;
   --inverse-ink: #f0ebdf;
   --inverse-muted: #c8c1b2;
   --inverse-faint: #a8a091;
@@ -698,7 +702,7 @@ hr {
 }
 
 .footer-brand span {
-  color: var(--amber);
+  color: var(--inverse-accent);
 }
 
 .footer-note {
@@ -734,7 +738,7 @@ hr {
 }
 
 .footer-list a:hover {
-  color: var(--amber);
+  color: var(--inverse-accent);
 }
 
 .footer-social {
@@ -762,8 +766,8 @@ hr {
 }
 
 .footer-social a:hover {
-  border-color: var(--amber);
-  color: var(--amber);
+  border-color: var(--inverse-accent);
+  color: var(--inverse-accent);
 }
 
 .site-footer__bottom {
@@ -788,7 +792,7 @@ hr {
 }
 
 .site-footer__bottom a:hover {
-  color: var(--amber);
+  color: var(--inverse-accent);
 }
 
 .contact-link__label {

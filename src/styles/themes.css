@@ -35,6 +35,7 @@ body {
   --danger: #9b3b2f;
   --danger-wash: #f6e4e0;
   --inverse-bg: #23221c;
+  --inverse-accent: #d99036;
   --inverse-ink: #f0ebdf;
   --inverse-muted: #c8c1b2;
   --inverse-faint: #a8a091;
@@ -75,6 +76,7 @@ body {
   --danger: #ef9a8a;
   --danger-wash: #33201d;
   --inverse-bg: #0e1011;
+  --inverse-accent: #e2a355;
   --inverse-ink: #eef1ec;
   --inverse-muted: #9aa39c;
   --inverse-faint: #7f8882;
@@ -144,6 +146,9 @@ body {
   --danger: #93382a;
   --danger-wash: #f2e5e1;
   --inverse-bg: #111110;
+  /* Swiss inverts the accent on dark panels: --amber is deliberately
+     near-black on paper, which would be invisible on the footer. */
+  --inverse-accent: #fbfaf7;
   --inverse-ink: #fbfaf7;
   --inverse-muted: #c9c6bd;
   --inverse-faint: #a5a29a;
@@ -212,6 +217,7 @@ body {
   --danger: #a04434;
   --danger-wash: #f6e3dc;
   --inverse-bg: #3a2f27;
+  --inverse-accent: #df8d52;
   --inverse-ink: #fbf3e8;
   --inverse-muted: #ddd0c0;
   --inverse-faint: #b9ab9b;
@@ -266,6 +272,7 @@ body {
   --danger: #8f3b2c;
   --danger-wash: #f2e0d8;
   --inverse-bg: #1f3a2d;
+  --inverse-accent: #d9b871;
   --inverse-ink: #f4ecdc;
   --inverse-muted: #c4cfc0;
   --inverse-faint: #9fae9b;
