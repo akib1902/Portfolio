@@ -91,6 +91,10 @@ export interface DocumentInput {
 export function buildDocument({ template, appHtml, content, seo, theme }: DocumentInput): string {
   let html = template;
 
+  // The template carries the default theme so a plain index.html is still
+  // valid; the administrator's configured theme must replace it, not stack a
+  // second data-theme attribute beside it.
+  html = html.replace(/\sdata-theme="[^"]*"/, '');
   html = html.replace('<html lang="en"', `<html lang="en" data-theme="${escapeHtml(theme)}"`);
   html = html.replace('<head>', `<head>\n    ${headTags(seo, content, themeMetaContent(theme))}`);
 

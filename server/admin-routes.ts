@@ -26,7 +26,7 @@ import {
   statusInputSchema,
 } from './content-schema';
 import { createRateLimiter } from './rate-limit';
-import { deleteImage, MAX_UPLOAD_BYTES, saveImage, UploadError } from './uploads';
+import { deleteMedia, MAX_UPLOAD_BYTES, saveDocument, saveImage, UploadError } from './uploads';
 
 export interface AdminRouterOptions {
   db: Db;
@@ -333,9 +333,10 @@ export function createAdminRouter({
       }
 
       const kind = typeof req.body?.kind === 'string' ? req.body.kind : '';
-      void saveImage(uploadsDir, kind, req.file)
+      const save = kind === 'resume' ? saveDocument : saveImage;
+      void save(uploadsDir, kind, req.file)
         .then((saved) => {
-          store.audit(admin.email, 'upload', 'media', saved.filename, `${kind} image uploaded (${saved.bytes} bytes)`);
+          store.audit(admin.email, 'upload', 'media', saved.filename, `${kind} file uploaded (${saved.bytes} bytes)`);
           res.status(201).json({ ok: true, media: saved });
         })
         .catch(next);
@@ -344,7 +345,7 @@ export function createAdminRouter({
 
   router.delete('/media/:filename', requireAdmin, (req, res, next) => {
     const admin = identity(res)!;
-    void deleteImage(uploadsDir, req.params.filename)
+    void deleteMedia(uploadsDir, req.params.filename)
       .then((deleted) => {
         if (!deleted) {
           fail(res, 404, 'Media file not found.');

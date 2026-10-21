@@ -91,7 +91,7 @@ export default function LoginPage() {
         </form>
 
         <p className="admin-login__note">
-          Sessions expire automatically and can be ended from Settings.
+          Sessions expire automatically. Use Sign out in the header to end one immediately.
         </p>
       </div>
     </div>

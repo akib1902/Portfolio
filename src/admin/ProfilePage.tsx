@@ -2,7 +2,16 @@ import { useState } from 'react';
 import type { Profile } from '@/content/types';
 import { useAdmin } from './AdminContext';
 import { ApiError, saveProfile } from './api';
-import { AdminField, ImageUpload, SaveBar, StringList, TextArea, TextInput, Toggle } from './fields';
+import {
+  AdminField,
+  FileUpload,
+  ImageUpload,
+  SaveBar,
+  StringList,
+  TextArea,
+  TextInput,
+  Toggle,
+} from './fields';
 
 type Status = { tone: 'ok' | 'error'; message: string } | null;
 
@@ -286,7 +295,7 @@ export default function ProfilePage() {
             label="Resume PDF path"
             value={form.resume.pdf}
             onChange={(value) => patch('resume', { ...form.resume, pdf: value })}
-            hint="For example /akib-ahmed-resume.pdf or an uploaded file path."
+            hint="For example /akib-ahmed-resume.pdf or an uploaded /media path."
           />
           <TextInput
             label="Resume label"
@@ -301,6 +310,14 @@ export default function ProfilePage() {
             maxLength={300}
           />
         </div>
+        <FileUpload
+          label="Replace the resume PDF"
+          value={form.resume.pdf || null}
+          onChange={(value) =>
+            patch('resume', { ...form.resume, pdf: value ?? '/akib-ahmed-resume.pdf' })
+          }
+          hint="PDF up to 5 MB. Uploading replaces the download behind the resume page without a rebuild."
+        />
       </section>
 
       <section className="admin-card" aria-labelledby="principles-heading">
