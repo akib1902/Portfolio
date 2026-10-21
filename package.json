@@ -14,7 +14,14 @@
     "check": "npm run typecheck && npm run test && npm run build",
     "build:client": "vite build",
     "build:server": "vite build --ssr src/entry-server.tsx --outDir dist/server",
-    "admin:create": "tsx server/scripts/create-admin.ts"
+    "admin:create": "tsx server/scripts/create-admin.ts",
+    "qa:theme": "node qa/theme-fouc.test.mjs",
+    "qa:functional": "node qa/functional.test.mjs",
+    "qa:admin": "node qa/admin-e2e.test.mjs",
+    "qa:seo": "node qa/seo.test.mjs",
+    "qa:a11y": "node qa/a11y.test.mjs",
+    "qa:perf": "node qa/perf-responsive.test.mjs",
+    "qa": "npm run qa:theme && npm run qa:functional && npm run qa:admin && npm run qa:seo && npm run qa:a11y && npm run qa:perf"
   },
   "engines": {
     "node": ">=20.19"
@@ -25,10 +32,11 @@
     "@fontsource-variable/newsreader": "^5.3.0",
     "@fontsource/anton": "^5.2.8",
     "better-sqlite3": "^13.0.3",
+    "compression": "^1.8.2",
     "dotenv": "^17.2.3",
     "express": "^4.21.2",
     "multer": "^2.4.0",
-    "nodemailer": "^7.0.9",
+    "nodemailer": "^10.1.7",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-router-dom": "^7.9.4",
@@ -36,7 +44,9 @@
     "zod": "^4.1.12"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
     "@types/better-sqlite3": "^9.6.0",
+    "@types/compression": "^1.8.1",
     "@types/express": "^4.17.23",
     "@types/multer": "^2.3.0",
     "@types/node": "^24.9.1",
@@ -44,8 +54,9 @@
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.2",
     "@vitejs/plugin-react": "^5.0.4",
+    "playwright": "^1.64.1",
     "typescript": "^5.9.3",
     "vite": "^7.1.12",
-    "vitest": "^3.2.4"
+    "vitest": "^5.0.5"
   }
 }

@@ -1,0 +1,44 @@
+/*
+ * First-paint canvas for every theme.
+ *
+ * The full stylesheet is render-blocking, but the browser paints the canvas
+ * white the moment it has *any* reason to draw — before the main CSS arrives
+ * on a cold cache that leaves a white flash in front of the dark Graphite
+ * Terminal theme (and a brief wrong-tint flash in front of the light ones).
+ *
+ * This file is tiny, linked first in <head>, and only maps the server- or
+ * theme-init-rendered data-theme attribute to its canvas colour and
+ * colour-scheme. Everything else lives in the bundled stylesheet.
+ *
+ * Values must match src/styles/themes.css (--paper per theme).
+ */
+
+html {
+  background-color: #f5f0e8;
+  color-scheme: light;
+}
+
+html[data-theme='amber-minimal'] {
+  background-color: #f5f0e8;
+  color-scheme: light;
+}
+
+html[data-theme='graphite-terminal'] {
+  background-color: #15171a;
+  color-scheme: dark;
+}
+
+html[data-theme='swiss-editorial'] {
+  background-color: #fbfaf7;
+  color-scheme: light;
+}
+
+html[data-theme='warm-bento'] {
+  background-color: #f1e7db;
+  color-scheme: light;
+}
+
+html[data-theme='forest-sand'] {
+  background-color: #efe4d2;
+  color-scheme: light;
+}

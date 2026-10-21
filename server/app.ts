@@ -1,4 +1,5 @@
 import express from 'express';
+import compression from 'compression';
 import type { ErrorRequestHandler, Express, Request, Response } from 'express';
 import { appendFile, mkdir } from 'node:fs/promises';
 import { randomUUID } from 'node:crypto';
@@ -62,6 +63,11 @@ export function createApp(options: AppOptions): Express {
   const app = express();
   app.disable('x-powered-by');
   if (options.trustProxy) app.set('trust proxy', 1);
+
+  // Brotli/gzip the text responses (SSR HTML, JSON APIs, JS/CSS assets).
+  // compression() skips already-compressed formats and sub-1 KB payloads and
+  // sets Vary: Accept-Encoding, so immutable hashed assets stay cache-safe.
+  app.use(compression());
 
   app.use((_req, res, next) => {
     res.setHeader('X-Content-Type-Options', 'nosniff');

@@ -140,6 +140,26 @@ afterEach(async () => {
   }
 });
 
+describe('response compression', () => {
+  it('gzip-compresses text responses and sets Vary', async () => {
+    const h = await harness();
+    const response = await fetch(`${h.base}/`, { headers: { 'accept-encoding': 'gzip' } });
+    expect(response.status).toBe(200);
+    expect(response.headers.get('content-encoding')).toBe('gzip');
+    expect(response.headers.get('vary')).toContain('Accept-Encoding');
+    // Decompressed body must still be the full rendered page.
+    expect(await response.text()).toContain('<!doctype html>');
+  });
+
+  it('still serves valid small JSON under compression negotiation', async () => {
+    const h = await harness();
+    const response = await fetch(`${h.base}/api/health`, { headers: { 'accept-encoding': 'gzip' } });
+    // Tiny payloads sit below the compression threshold; the body must parse
+    // either way, which is what the assert guards against.
+    expect((await response.json()).ok).toBe(true);
+  });
+});
+
 describe('public/admin separation', () => {
   it('rejects unauthenticated reads and writes on every admin endpoint', async () => {
     const h = await harness();
