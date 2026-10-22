@@ -375,6 +375,7 @@ function describeProfileChange(profile: Profile): string {
   const fields: string[] = [];
   if (profile.name) fields.push(`name: ${profile.name}`);
   if (profile.portrait) fields.push('portrait set');
+  if (profile.links.more.length > 0) fields.push(`${profile.links.more.length} extra links`);
   fields.push(`${profile.principles.length} principles`);
   return `Profile updated (${fields.join(', ')})`;
 }

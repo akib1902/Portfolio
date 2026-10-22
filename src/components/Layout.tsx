@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
-import { activeSocialLinks, contactMailto } from '@/content/profile';
+import { activeContactLinks, contactMailto } from '@/content/profile';
 import { useProfile } from '@/lib/content';
 import { CloseIcon, MenuIcon } from './icons';
 import { ThemeSwitcher } from './ThemeSwitcher';
@@ -126,7 +126,7 @@ function Header() {
 
 function Footer() {
   const profile = useProfile();
-  const socials = activeSocialLinks(profile);
+  const links = activeContactLinks(profile);
   const mailto = contactMailto('Project inquiry', profile);
   const year = new Date().getFullYear();
   const [firstName, ...restOfName] = profile.name.split(' ');
@@ -140,22 +140,22 @@ function Footer() {
               {firstName} <span>{restOfName.join(' ')}</span>
             </p>
             <p className="footer-note">{profile.intro}</p>
-            {socials.length > 0 || mailto ? (
-              <div className="footer-social">
-                {socials.map((social) => (
+            {links.length > 0 || mailto ? (
+              <nav className="footer-social" aria-label="Contact links">
+                {links.map((link) => (
                   <a
-                    key={social.key}
-                    href={social.href}
+                    key={link.key}
+                    href={link.href}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    {social.label}
+                    {link.label}
                     <span className="sr-only"> (opens in a new tab)</span>
                     <span aria-hidden="true">↗</span>
                   </a>
                 ))}
                 {mailto ? <a href={mailto}>Email</a> : null}
-              </div>
+              </nav>
             ) : null}
           </div>
 
@@ -189,6 +189,31 @@ function Footer() {
                   {profile.availability.available
                     ? profile.availability.label
                     : 'Currently unavailable'}
+                </span>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h2 className="footer-heading">Licenses</h2>
+            <ul className="footer-list footer-licenses">
+              <li>
+                <span>
+                  © {year} {profile.name}. All rights reserved.
+                </span>
+              </li>
+              <li>
+                <span>
+                  Typefaces under the{' '}
+                  <a
+                    href="https://openfontlicense.org/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    SIL Open Font License 1.1
+                    <span className="sr-only"> (opens in a new tab)</span>
+                  </a>
+                  .
                 </span>
               </li>
             </ul>

@@ -689,7 +689,7 @@ hr {
 
 .site-footer__grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.6fr) minmax(0, 0.7fr) minmax(0, 0.7fr);
+  grid-template-columns: minmax(0, 1.6fr) repeat(3, minmax(0, 0.7fr));
   gap: 2rem;
   padding-bottom: 2.5rem;
 }
@@ -738,6 +738,29 @@ hr {
 }
 
 .footer-list a:hover {
+  color: var(--inverse-accent);
+}
+
+.footer-licenses {
+  gap: 0.4rem;
+}
+
+.footer-licenses span {
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--inverse-muted);
+}
+
+.footer-licenses a {
+  display: inline;
+  font-size: inherit;
+  color: var(--inverse-ink);
+  text-decoration: underline;
+  text-decoration-color: var(--inverse-line);
+  text-underline-offset: 0.2em;
+}
+
+.footer-licenses a:hover {
   color: var(--inverse-accent);
 }
 

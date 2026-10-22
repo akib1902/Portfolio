@@ -42,7 +42,7 @@ Browser ──► Express
 | `/about` | Philosophy, capabilities, delivery workflow, verified education details |
 | `/projects` | Filterable, searchable case-study gallery; filter state lives in `?category=` |
 | `/projects/:slug` | Full case study with diagram, table of contents, evidence, related work |
-| `/contact` | Validated contact form and availability details |
+| `/contact` | Validated contact form, availability details, and administrator-managed contact links |
 | `/resume` | Print-ready resume with PDF download |
 | `/sitemap.xml`, `/robots.txt` | Generated from `SITE_URL`; fail closed if it is missing in production |
 | `/admin/login`, `/admin`, `/admin/profile`, `/admin/projects`, `/admin/skills`, `/admin/appearance`, `/admin/settings` | Private CMS |
@@ -138,7 +138,7 @@ that is Bash syntax and will not set the variables for this script.
 
 ### What the administrator can edit
 
-- **Profile:** name, headline, biography, disciplines, location/time zone, availability, education, contact links, portrait, social-sharing image, resume paths, engineering principles.
+- **Profile:** name, headline, biography, disciplines, location/time zone, availability, education, contact links (email, GitHub, LinkedIn, Upwork, and up to ten additional labelled links with reordering), portrait, social-sharing image, resume paths, engineering principles. A link appears on the contact page only when its URL is filled in.
 - **Media:** upload/replace/remove portrait, sharing image, project image, and resume PDF. Files are validated by signature, MIME type, extension, and size (5 MB), renamed with a UUID, and stored under `UPLOAD_DIR`.
 - **Projects:** create, edit, preview, publish/unpublish, delete, feature, reorder; edit stack, links, diagram, and every case-study section. Drafts are private. Changing a published slug writes a permanent redirect from the old URL.
 - **Skills:** add, edit, reorder, and remove groups; add/remove skills; choose home-page highlights.
@@ -253,7 +253,7 @@ The suite covers contact validation and field-error mapping, rate-limit windows,
 
 ## Known limitations
 
-1. **No verified contact links or portrait are stored in the seed.** Email, GitHub, LinkedIn, and Upwork are `null` until the administrator sets them; the monogram plate is the portrait fallback. This avoids publishing invented identities.
+1. **No verified contact links or portrait are stored in the seed.** Email, GitHub, LinkedIn, Upwork, and the additional links list are empty until the administrator sets them; the monogram plate is the portrait fallback. This avoids publishing invented identities.
 2. **Project repositories are private.** No repository/demo links or production metrics are claimed.
 3. **SMTP is not configured in this checkout.** The form stores submissions; email delivery needs the SMTP variables. Delivery was not tested against a live provider.
 4. **SQLite and in-memory rate limiting are single-instance.** Use a persistent volume and one server process, or migrate deliberately.

@@ -1,6 +1,9 @@
+import { mkdtemp, rm } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { ContentStore } from './content-store';
-import { openDatabase, seedDatabase } from './db';
+import { closeDatabase, openDatabase, seedDatabase } from './db';
 import type { Profile } from '../src/content/types';
 
 function openSeededDatabase() {
@@ -25,6 +28,38 @@ describe('ContentStore.profile', () => {
     const profile = new ContentStore(db, null).profile();
 
     expect(profile.links).toEqual({ github: null, linkedin: null, upwork: null, more: [] });
+  });
+
+  it('migration 2 backfills an existing profile document without the extra list', async () => {
+    const dir = await mkdtemp(path.join(tmpdir(), 'portfolio-migration-'));
+    const file = path.join(dir, 'portfolio.db');
+    try {
+      const db = openDatabase(file);
+      seedDatabase(db);
+      const row = db
+        .prepare<[string], { value: string }>('SELECT value FROM documents WHERE key = ?')
+        .get('profile');
+      const stored = JSON.parse(row!.value) as Profile;
+      const { more: _removed, ...legacyLinks } = stored.links;
+      db.prepare('UPDATE documents SET value = ? WHERE key = ?').run(
+        JSON.stringify({ ...stored, links: legacyLinks }),
+        'profile',
+      );
+      // Simulate a database that was migrated before this feature shipped.
+      db.prepare('DELETE FROM schema_migrations WHERE version = 2').run();
+      closeDatabase(db);
+
+      const reopened = openDatabase(file);
+      const migrated = JSON.parse(
+        reopened.prepare<[string], { value: string }>('SELECT value FROM documents WHERE key = ?').get('profile')!
+          .value,
+      ) as Profile;
+      closeDatabase(reopened);
+
+      expect(migrated.links.more).toEqual([]);
+    } finally {
+      await rm(dir, { recursive: true, force: true });
+    }
   });
 
   it('returns administrator-defined extra links unchanged', () => {
