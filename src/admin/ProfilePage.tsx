@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { Profile } from '@/content/types';
+import type { ContactLink, Profile } from '@/content/types';
 import { useAdmin } from './AdminContext';
 import { ApiError, saveProfile } from './api';
 import {
@@ -15,6 +15,13 @@ import {
 
 type Status = { tone: 'ok' | 'error'; message: string } | null;
 
+const MAX_EXTRA_LINKS = 10;
+
+/** Stable client-side key for a link row that has not been saved yet. */
+function newLinkId(): string {
+  return `link-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
+}
+
 export default function ProfilePage() {
   const { content, setContent } = useAdmin();
   const [form, setForm] = useState<Profile>(() => structuredClone(content.profile));
@@ -25,11 +32,34 @@ export default function ProfilePage() {
     setForm((current) => ({ ...current, [key]: value }));
   }
 
-  function patchLink(key: keyof Profile['links'], value: string) {
+  function patchLink(key: 'github' | 'linkedin' | 'upwork', value: string) {
     setForm((current) => ({
       ...current,
       links: { ...current.links, [key]: value.trim() === '' ? null : value },
     }));
+  }
+
+  function patchExtraLinks(update: (links: ContactLink[]) => ContactLink[]) {
+    setForm((current) => ({
+      ...current,
+      links: { ...current.links, more: update(current.links.more ?? []) },
+    }));
+  }
+
+  function patchExtraLink(index: number, key: 'label' | 'href', value: string) {
+    patchExtraLinks((links) =>
+      links.map((link, position) => (position === index ? { ...link, [key]: value } : link)),
+    );
+  }
+
+  function moveExtraLink(index: number, direction: -1 | 1) {
+    patchExtraLinks((links) => {
+      const target = index + direction;
+      if (target < 0 || target >= links.length) return links;
+      const next = [...links];
+      [next[index], next[target]] = [next[target], next[index]];
+      return next;
+    });
   }
 
   function patchPrinciple(index: number, key: 'title' | 'body', value: string) {
@@ -220,6 +250,10 @@ export default function ProfilePage() {
         <h2 className="admin-card__title" id="links-heading">
           Contact links
         </h2>
+        <p className="admin-page__intro">
+          Every link with a URL appears on the contact page. Leave a field empty to hide that
+          link. Extra links can be labelled and ordered however you like.
+        </p>
         <div className="admin-grid admin-grid--two">
           <TextInput
             label="Email"
@@ -248,6 +282,72 @@ export default function ProfilePage() {
             onChange={(value) => patchLink('upwork', value)}
           />
         </div>
+
+        <h3 className="admin-eyebrow admin-links-heading">More links</h3>
+        <p className="admin-field__hint">
+          Add any other profile or contact page, for example X, Instagram, Stack Overflow, or a
+          personal site. Links appear directly below GitHub, LinkedIn, and Upwork.
+        </p>
+        {(form.links.more ?? []).map((link, index) => (
+          <div className="admin-subcard" key={link.id}>
+            <div className="admin-subcard__head">
+              <span className="admin-eyebrow">Extra link {index + 1}</span>
+              <div className="admin-savebar__actions">
+                <button
+                  type="button"
+                  className="btn btn--quiet btn--small"
+                  onClick={() => moveExtraLink(index, -1)}
+                  disabled={index === 0}
+                >
+                  Move up
+                </button>
+                <button
+                  type="button"
+                  className="btn btn--quiet btn--small"
+                  onClick={() => moveExtraLink(index, 1)}
+                  disabled={index === form.links.more.length - 1}
+                >
+                  Move down
+                </button>
+                <button
+                  type="button"
+                  className="btn btn--quiet btn--small"
+                  onClick={() =>
+                    patchExtraLinks((links) => links.filter((_, position) => position !== index))
+                  }
+                >
+                  Remove
+                </button>
+              </div>
+            </div>
+            <div className="admin-grid admin-grid--two">
+              <TextInput
+                label="Label"
+                value={link.label}
+                onChange={(value) => patchExtraLink(index, 'label', value)}
+                maxLength={40}
+                placeholder="X (Twitter)"
+              />
+              <TextInput
+                label="URL"
+                type="url"
+                value={link.href}
+                onChange={(value) => patchExtraLink(index, 'href', value)}
+                placeholder="https://example.com/you"
+              />
+            </div>
+          </div>
+        ))}
+        <button
+          type="button"
+          className="btn btn--secondary btn--small"
+          onClick={() =>
+            patchExtraLinks((links) => [...links, { id: newLinkId(), label: '', href: '' }])
+          }
+          disabled={(form.links.more ?? []).length >= MAX_EXTRA_LINKS}
+        >
+          Add link
+        </button>
       </section>
 
       <section className="admin-card" aria-labelledby="media-heading">

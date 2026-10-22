@@ -208,6 +208,10 @@
   color: var(--muted-strong);
 }
 
+.admin-links-heading {
+  margin-top: 1rem;
+}
+
 .admin-subcard {
   padding: 1rem;
   border: 1px solid var(--line);

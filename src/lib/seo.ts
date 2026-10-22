@@ -38,9 +38,12 @@ function defaultDescription(content: PublicContent): string {
 function personNode(content: PublicContent): Record<string, unknown> {
   const { profile } = content;
   const siteUrl = content.site.url;
-  const sameAs = [profile.links.github, profile.links.linkedin, profile.links.upwork].filter(
-    (link): link is string => Boolean(link),
-  );
+  const sameAs = [
+    profile.links.github,
+    profile.links.linkedin,
+    profile.links.upwork,
+    ...(profile.links.more ?? []).map((link) => link.href),
+  ].filter((link): link is string => Boolean(link));
   const image = profile.portrait ? absolute(siteUrl, profile.portrait) : null;
 
   return {

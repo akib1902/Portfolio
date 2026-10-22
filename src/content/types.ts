@@ -32,7 +32,14 @@ export function isThemeId(value: unknown): value is ThemeId {
 export type SocialKey = 'github' | 'linkedin' | 'upwork';
 
 export interface SocialLink {
-  key: SocialKey;
+  key: string;
+  label: string;
+  href: string;
+}
+
+/** An administrator-defined contact link with a label and a destination URL. */
+export interface ContactLink {
+  id: string;
   label: string;
   href: string;
 }
@@ -58,6 +65,8 @@ export interface ProfileLinks {
   github: string | null;
   linkedin: string | null;
   upwork: string | null;
+  /** Extra services the administrator wants to surface, e.g. X, Instagram, Upwork. */
+  more: ContactLink[];
 }
 
 export interface ResumeSettings {

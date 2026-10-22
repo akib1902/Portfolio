@@ -45,6 +45,8 @@ export const profile: Profile = {
     github: null,
     linkedin: null,
     upwork: null,
+    /** Administrator-defined extras, such as X, Instagram, or a blog. */
+    more: [],
   },
   /** Optional real portrait, e.g. '/media/portrait-....jpg'. Falls back to a typographic plate. */
   portrait: null,
@@ -83,9 +85,20 @@ export const socialLabels: Record<SocialKey, string> = {
 
 /** Returns only links that have actually been configured. */
 export function activeSocialLinks(source: Profile = profile): SocialLink[] {
-  return (Object.keys(source.links) as SocialKey[])
+  return (Object.keys(socialLabels) as SocialKey[])
     .filter((key) => Boolean(source.links[key]))
     .map((key) => ({ key, label: socialLabels[key], href: source.links[key] as string }));
+}
+
+/**
+ * The fixed contact links plus every administrator-defined extra link, in the
+ * order the administrator arranged them. Blank entries never reach the page.
+ */
+export function activeContactLinks(source: Profile = profile): SocialLink[] {
+  const extra = (source.links.more ?? [])
+    .filter((link) => Boolean(link.label && link.href))
+    .map((link) => ({ key: link.id, label: link.label, href: link.href }));
+  return [...activeSocialLinks(source), ...extra];
 }
 
 export function contactMailto(subject: string, source: Profile = profile): string | null {

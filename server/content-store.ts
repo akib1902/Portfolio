@@ -101,7 +101,7 @@ export class ContentStore {
   }
 
   profile(): Profile {
-    return this.document<Profile>('profile').value;
+    return normaliseProfile(this.document<Profile>('profile').value);
   }
 
   skills(): SkillsDocument {
@@ -352,6 +352,23 @@ export class ContentStore {
       createdAt: row.created_at,
     }));
   }
+}
+
+/**
+ * Keeps profiles written before a field existed loadable by the admin editor.
+ * The SQL migration backfills the same shape for documents already on disk.
+ */
+function normaliseProfile(profile: Profile): Profile {
+  const links = profile.links;
+  return {
+    ...profile,
+    links: {
+      github: links?.github ?? null,
+      linkedin: links?.linkedin ?? null,
+      upwork: links?.upwork ?? null,
+      more: Array.isArray(links?.more) ? links.more : [],
+    },
+  };
 }
 
 function describeProfileChange(profile: Profile): string {

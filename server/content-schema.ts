@@ -27,6 +27,16 @@ const nullableUrl = z
   .nullable()
   .transform((value) => (value ? value : null));
 
+/** Administrator-defined contact links must point somewhere external and real. */
+const externalUrl = z
+  .string()
+  .trim()
+  .max(600, 'URLs must be 600 characters or fewer.')
+  .refine(
+    (value) => /^https?:\/\//i.test(value) && isSafeUrl(value),
+    'Enter a full http(s) URL, for example https://example.com.',
+  );
+
 const email = z
   .string()
   .trim()
@@ -84,6 +94,17 @@ export const profileInputSchema = z
         github: nullableUrl,
         linkedin: nullableUrl,
         upwork: nullableUrl,
+        more: z
+          .array(
+            z
+              .object({
+                id: requiredText(64),
+                label: requiredText(40),
+                href: externalUrl,
+              })
+              .strict(),
+          )
+          .max(10, 'Keep the additional links to 10 or fewer.'),
       })
       .strict(),
     portrait: nullableUrl,

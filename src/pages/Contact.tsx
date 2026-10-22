@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
-import { activeSocialLinks, contactMailto } from '@/content/profile';
+import { activeContactLinks, contactMailto } from '@/content/profile';
 import { useProfile } from '@/lib/content';
 import { ContactForm } from '@/components/ContactForm';
 import { ArrowUpRight, MailIcon } from '@/components/icons';
 
 export default function Contact() {
   const profile = useProfile();
-  const socials = activeSocialLinks(profile);
+  const links = activeContactLinks(profile);
   const mailto = contactMailto('Project inquiry from your portfolio', profile);
 
   return (
@@ -122,7 +122,7 @@ export default function Contact() {
               </div>
             </div>
 
-            {mailto || socials.length > 0 ? (
+            {mailto || links.length > 0 ? (
               <div className="info-card">
                 <h2 className="info-card__title">Direct</h2>
                 <div className="contact-links">
@@ -135,15 +135,15 @@ export default function Contact() {
                       <ArrowUpRight size={12} />
                     </a>
                   ) : null}
-                  {socials.map((social) => (
+                  {links.map((link) => (
                     <a
-                      key={social.key}
-                      href={social.href}
+                      key={link.key}
+                      href={link.href}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="contact-link"
                     >
-                      {social.label}
+                      {link.label}
                       <ArrowUpRight size={12} />
                       <span className="sr-only"> (opens in a new tab)</span>
                     </a>

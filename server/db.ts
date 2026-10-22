@@ -75,6 +75,17 @@ const migrations: Migration[] = [
       CREATE INDEX audit_log_created_at ON audit_log(created_at DESC);
     `,
   },
+  {
+    version: 2,
+    name: 'administrator-managed contact links',
+    // Profiles seeded before the extra-links feature have no `links.more` key.
+    up: `
+      UPDATE documents
+      SET value = json_set(value, '$.links.more', json('[]'))
+      WHERE key = 'profile'
+        AND json_type(value, '$.links.more') IS NULL;
+    `,
+  },
 ];
 
 export function openDatabase(file: string): Db {
